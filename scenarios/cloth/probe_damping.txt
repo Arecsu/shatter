@@ -1,0 +1,9 @@
+# Probe: 5x5 cloth in free fall, edge damping on (flag damping, coefficient 0.5), no collision.
+# Caveat: uniform free fall has zero relative velocity along edges, so damping must produce NO change here
+# (a null test). The informative version is probe_damping_pinned.txt.
+dt 0.0166667
+steps 30
+gravity 0 -9.81 0
+grid 5 5 0.1  0 1 0  xz
+cloth.dampingCoefficient 0.5
+flag damping 1

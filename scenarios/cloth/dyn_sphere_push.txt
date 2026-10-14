@@ -1,0 +1,51 @@
+# Kinematic sphere (r 0.2) pushed up at 0.5 m/s into a horizontal sheet pinned on its border (sheet at y=0.9).
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 0.9 -0.5  xz
+cloth.thickness 0.04
+cloth.solverIterations 5
+flag bending 1
+pin 0 0
+pin 0 10
+pin 1 0
+pin 1 10
+pin 0 1
+pin 10 1
+pin 2 0
+pin 2 10
+pin 0 2
+pin 10 2
+pin 3 0
+pin 3 10
+pin 0 3
+pin 10 3
+pin 4 0
+pin 4 10
+pin 0 4
+pin 10 4
+pin 5 0
+pin 5 10
+pin 0 5
+pin 10 5
+pin 6 0
+pin 6 10
+pin 0 6
+pin 10 6
+pin 7 0
+pin 7 10
+pin 0 7
+pin 10 7
+pin 8 0
+pin 8 10
+pin 0 8
+pin 10 8
+pin 9 0
+pin 9 10
+pin 0 9
+pin 10 9
+pin 10 0
+pin 10 10
+sphere 0.2 0.0 0.5 0.0
+kinematic 0
+move 0 0 0.5 0

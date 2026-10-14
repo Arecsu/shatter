@@ -1,0 +1,15 @@
+# mesh_box_drape: drop_box with the box as a cooked triangle mesh (4x4 quads per face), so the original's cloth-vs-mesh
+# collision (0x100f6bb0 / 0x100f53a0) runs. Shim check: scene meshes reach the solver (cloth_ours meshOf). Compare with drop_box.
+dt 0.0166667
+steps 240
+gravity 0 -9.81 0
+grid 21 21 0.1  -1 1.5 -1  xz
+cloth.thickness 0.04
+cloth.solverIterations 5
+cloth.bendingStiffness 0.5
+cloth.dampingCoefficient 0.2
+cloth.friction 0.5
+flag bending 1
+flag damping 1
+boxmesh 0.4 0.3 0.4  0 0.3 0  4
+plane 0 1 0 0

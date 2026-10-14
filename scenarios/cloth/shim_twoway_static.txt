@@ -1,0 +1,12 @@
+# attach_twoway with the box dynamic (mass 2): two-way reactions reach a dynamic body (shim-only check, no native model).
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 1.5 -0.5  xz
+cloth.thickness 0.04
+cloth.solverIterations 5
+flag bending 1
+box 0.3 0.2 0.3  0 1.55 0
+plane 0 1 0 0
+attach shape 0 1
+attach colliding 1

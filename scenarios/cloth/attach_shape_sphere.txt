@@ -1,0 +1,13 @@
+# attachToShape (one-way, hard) to the sphere, with the box as a no-op attach first. Same cloth as attach_shape.txt.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 1.5 -0.5  xz
+cloth.thickness 0.04
+cloth.solverIterations 5
+flag bending 1
+box 0.3 0.2 0.3  0 1.0 0
+sphere 0.2 0.5 1.6 0.0
+plane 0 1 0 0
+attach shape 0 1
+attach shape 1 0

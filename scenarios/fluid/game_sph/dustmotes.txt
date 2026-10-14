@@ -1,0 +1,31 @@
+# Game config Fluid.Dustmotes (mixed), from captures/assets/physx_inventory.json (UE3 props) [A: scenario geometry].
+# Conversion (1 uu = 0.02 m) as the game's descriptor shows [V on Heli_Smoke]: restPPM = 1/(RPD*0.02), motion = MaxMotion/RPD,
+#   collDist = CollisionDistance/RPD (engine default 10 uu), extAccel = uu*0.02 (Z-up -> Y-up).
+# RPD 15 uu, MaxMotion 1 uu, CollisionDistance 10 (default) uu, MaxParticles 10000, ext (0, 0, 0) uu.
+# Emission: game addParticles over time is not expressible (scenario format has no emitter): the block is the initial cloud.
+# Geometry: floor+box. Note: ESM_MIXED_MODE, EPSM_8, bDisableGravity.
+dt 0.0166667
+steps 240
+gravity 0 -9.81 0
+fluid.simulationMethod mixed
+fluid.maxParticles 10000
+fluid.restParticlesPerMeter 3.333333
+fluid.restDensity 1000
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 0.06666667
+fluid.collisionDistanceMultiplier 0.6666667
+fluid.packetSizeMultiplier 8
+fluid.stiffness 5
+fluid.viscosity 5
+fluid.damping 0.1
+fluid.disableGravity 1
+fluid.restitutionForStaticShapes 0
+fluid.dynamicFrictionForStaticShapes 0
+fluid.restitutionForDynamicShapes 0.02
+fluid.dynamicFrictionForDynamicShapes 0
+# 2.8.0 (game) static friction: ignored by ours, forced 0 on the 2.8.1 oracle (same convention as sph_dambreak)
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+plane 0 1 0 0
+box 0.5 1.0 1.5  4.0 1.0 0
+block 16 6 16 0.3  -2.4 0.3 -2.4  0 0 0

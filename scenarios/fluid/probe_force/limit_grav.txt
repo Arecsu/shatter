@@ -1,0 +1,8 @@
+# probe_force: NX_IMPULSE 1 along x at step 1 (dv 125, above the motion limit) with gravity -9.81: clamp before or after gravity?
+dt 0.0166667
+steps 4
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.disableGravity 0
+block 1 1 1 0.02 0 1 0 0 0 0
+at 1 force 1 0 1 0 0

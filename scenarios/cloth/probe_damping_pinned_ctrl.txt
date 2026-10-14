@@ -1,0 +1,8 @@
+# Control for probe_damping_pinned.txt: identical scene with edge damping OFF. Separates damping error from generic
+# pinned-cloth swing error.
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 5 5 0.1  0 1 0  xz
+pin 0 0
+pin 0 4

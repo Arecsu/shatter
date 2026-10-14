@@ -1,0 +1,18 @@
+# Ref for me_ridge_face_drop: the same left face as a static plane (tilted 26.6 deg), no mesh. Our solver diverges at step 32.
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 4
+fluid.restParticlesPerMeter 50
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.packetSizeMultiplier 16
+fluid.restitutionForStaticShapes 0.2
+fluid.dynamicFrictionForStaticShapes 0.15
+fluid.staticFrictionForStaticShapes 0
+fluid.damping 0.05
+
+block 1 1 1 0.05  -0.4 1 0.1  0 0 0
+plane -0.4472136 0.8944272 0 0.4472136

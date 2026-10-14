@@ -1,0 +1,8 @@
+# Probe: as probe_friction_tilt.txt with friction 0.0 (frictionless sliding control).
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 5 5 0.1  -0.2 0.3 -0.2  xz
+cloth.thickness 0.04
+cloth.friction 0.0
+plane 0.3420201 0.9396926 0 0

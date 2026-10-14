@@ -1,0 +1,11 @@
+# Valid bounds (NX_CLF_VALIDBOUNDS, row 4 probe): a vertical 11x11 sheet (1 m, rows at y 2.0 .. 1.0) falls freely.
+# The lower bound y = -0.2 lies below the bottom row's start: the bottom row crosses it at ~0.49 s, the rows above
+# cross one after another. Removed particles freeze (v = 0). Bounds are large on x and z and the top stays open.
+# The top row (inside the box) loses its last triangle when the rows below are gone and freezes too (orphan rule).
+dt 0.0166667
+steps 180
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 2.0 0  xy
+cloth.thickness 0.02
+flag validbounds 1
+bounds -10 -0.2 -10  10 10 10

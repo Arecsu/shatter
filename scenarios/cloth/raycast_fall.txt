@@ -1,0 +1,16 @@
+# raycast while the drop_plane sheet falls (flat sheet: all particles share one height). Each probe drops a ray from
+# a height between the sheet's level after the previous step and after this step: a box built from the start-of-step
+# positions would reject it, a box of the current positions accepts it (expected hit at the current level).
+dt 0.0166667
+steps 40
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 0.5 -0.5  xz
+cloth.thickness 0.04
+cloth.friction 0.5
+plane 0 1 0 0
+raycast 1 0 0.487740 0 0 -1 0
+raycast 2 0 0.481000 0 0 -1 0
+raycast 3 0 0.478200 0 0 -1 0
+raycast 4 0 0.465938 0 0 -1 0
+raycast 5 0 0.450950 0 0 -1 0
+raycast 6 0 0.433000 0 0 -1 0

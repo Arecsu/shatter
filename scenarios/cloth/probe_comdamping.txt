@@ -1,0 +1,11 @@
+# Probe: same as probe_damping_pinned.txt plus COM damping (needs both NX_CLF_DAMPING and NX_CLF_COMDAMPING per RE notes).
+# Free-fall COM damping is a null test by construction, so the pinned variant is used.
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 5 5 0.1  0 1 0  xz
+pin 0 0
+pin 0 4
+cloth.dampingCoefficient 0.5
+flag damping 1
+flag comdamping 1

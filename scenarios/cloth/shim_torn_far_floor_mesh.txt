@@ -1,0 +1,20 @@
+# shim_torn_far_floor_mesh: shim_torn_far_floor with the floor as a triangle mesh (clipped per box in the shim). tear_flag whose bottom edge hangs 7 m above a wide floor box, out of the box the shim collects statics in at the
+# first build (cloth bounds + 2 m + its extent: down to y = -3.8). Torn pieces must land on the floor (top at y = -6),
+# not fall through it. Shim check for torn cloths extending their statics (cloth_ours extendStatics).
+dt 0.0166667
+steps 240
+gravity 0 -9.81 0
+grid 21 21 0.1  -1 3 0  xy
+cloth.thickness 0.05
+cloth.solverIterations 5
+cloth.tearFactor 1.3
+cloth.externalAcceleration 0 -60 0
+flag tearable 1
+mesh.tearable 1
+pin 0 0
+pin 4 0
+pin 8 0
+pin 12 0
+pin 16 0
+pin 20 0
+boxmesh 5 0.25 5  0 -6.25 0  8

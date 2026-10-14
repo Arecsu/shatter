@@ -1,0 +1,15 @@
+# Measure the proximity distance: the particle ends step 9 at 1.5*collisionDistance above the plane (no crossing),
+# then crosses on step 10. Cache response (restitution from the previous velocity) => a proximity plane was cached.
+dt 0.0166667
+steps 12
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 16
+fluid.restParticlesPerMeter 20
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+plane 0 1 0 0
+block 1 1 1 0.05  0 0.2588758 0  0 -0.6 0

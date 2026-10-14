@@ -1,0 +1,8 @@
+# probe_force: two SPH particles 0.02 apart, NX_VELOCITY_CHANGE (0,0.5,0) on id 0 at step 1: does the neighbour feel it through SPH in the same step?
+dt 0.0166667
+steps 4
+gravity 0 0 0
+fluid.simulationMethod sph
+fluid.disableGravity 1
+block 2 1 1 0.02 0 1 0 0 0 0
+at 1 force 2 0 0 0.5 0

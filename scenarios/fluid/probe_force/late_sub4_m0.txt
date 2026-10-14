@@ -1,0 +1,9 @@
+# probe_force: NX_FORCE 0.1 along x at step 1, 4 substeps
+dt 0.0166667
+steps 4
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.disableGravity 1
+timing 0.00416667 8
+block 1 1 1 0.02 0 1 0 0 0 0
+at 1 force 0 0 0.1 0 0

@@ -1,0 +1,14 @@
+# probe: 5x5 cloth dropped flat, sphere (r 0.2) under the x=0.3 edge of the cloth. Off-centre, sliding contact.
+dt 0.0166667
+steps 40
+gravity 0 -9.81 0
+cloth.thickness 0.04
+cloth.solverIterations 5
+cloth.bendingStiffness 0.5
+cloth.dampingCoefficient 0.2
+cloth.friction 0.5
+flag bending 1
+flag damping 1
+grid 5 5 0.1  0.1 1.0 -0.2  xz
+sphere 0.2  0.3 0.5 0
+plane 0 1 0 0

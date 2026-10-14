@@ -1,0 +1,30 @@
+# Benchmark (ours only, no oracle): glass_shards.txt with its floor replaced by a 100x100 quad grid (20k triangles)
+# and two tilted ramps, so the mesh midphase is exercised. Same particles and parameters as glass_shards.
+dt 0.0166667
+steps 180
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 1300
+fluid.restParticlesPerMeter 0.78125
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 0.25
+fluid.collisionDistanceMultiplier 0.03125
+fluid.packetSizeMultiplier 16
+fluid.restitutionForStaticShapes 0.25
+fluid.dynamicFrictionForStaticShapes 0.05
+fluid.restitutionForDynamicShapes 0.05
+fluid.dynamicFrictionForDynamicShapes 0.02
+fluid.damping 0.05
+quadgrid 100 100 8 8  0 0 0
+# ramp rising towards +x; corners A(-2.5,0,-2) B(-2.5,0,2) C(-1,0.5,-2) D(-1,0.5,2); triangles ABC and CBD, both +Y
+tri -2.5 0 -2  -2.5 0 2  -1 0.5 -2
+tri -1 0.5 -2  -2.5 0 2  -1 0.5 2
+# second ramp further out, rising towards +x
+tri 2.6 0 -3  2.6 0 3  4.0 0.6 -3
+tri 4.0 0.6 -3  2.6 0 3  4.0 0.6 3
+box 0.6 0.4 1.0  1.6 0.4 0
+sphere 0.25  -0.8 0.25 0.6
+block 1 25 40 0.05  0 0.8 -1.0  3.0 1.5 0
+block 1 25 12 0.05  0 0.8 1.0  -2.5 2.0 0.5
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0

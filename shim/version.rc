@@ -1,0 +1,31 @@
+// Version resource of the shim DLL. The installer reads FileDescription/ProductName to tell ours from the original.
+#include <winver.h>
+#include "version.h"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION SHATTER_VERSION_MAJOR, SHATTER_VERSION_MINOR, SHATTER_VERSION_PATCH, 0
+ PRODUCTVERSION SHATTER_VERSION_MAJOR, SHATTER_VERSION_MINOR, SHATTER_VERSION_PATCH, 0
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_DLL
+ FILESUBTYPE 0x0L
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904b0"
+    BEGIN
+      VALUE "CompanyName", "Shatter project"
+      VALUE "FileDescription", "Shatter: PhysX 2.8 loader with CPU cloth and fluids for Mirror's Edge"
+      VALUE "FileVersion", SHATTER_VERSION_STR
+      VALUE "InternalName", "PhysXLoader"
+      VALUE "OriginalFilename", "PhysXLoader.dll"
+      VALUE "ProductName", "Shatter"
+      VALUE "ProductVersion", SHATTER_VERSION_STR
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

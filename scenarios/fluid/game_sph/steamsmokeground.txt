@@ -1,0 +1,32 @@
+# Game config Fluid.SteamSmokeGround (sph), from captures/assets/physx_inventory.json (UE3 props) [A: scenario geometry].
+# Conversion (1 uu = 0.02 m) as the game's descriptor shows [V on Heli_Smoke]: restPPM = 1/(RPD*0.02), motion = MaxMotion/RPD,
+#   collDist = CollisionDistance/RPD (engine default 10 uu), extAccel = uu*0.02 (Z-up -> Y-up).
+# RPD 5 uu, MaxMotion 4 uu, CollisionDistance 10 (default) uu, MaxParticles 5000, ext (0, 0, 800) uu.
+# Emission: game addParticles over time is not expressible (scenario format has no emitter): the block is the initial cloud.
+# Geometry: ceiling+box. Note: same numbers as scenarios/fluid/steam_ceiling.txt.
+dt 0.0166667
+steps 240
+gravity 0 -9.81 0
+fluid.simulationMethod sph
+fluid.maxParticles 5000
+fluid.restParticlesPerMeter 10
+fluid.restDensity 1000
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 0.8
+fluid.collisionDistanceMultiplier 2
+fluid.packetSizeMultiplier 16
+fluid.stiffness 20
+fluid.viscosity 6
+fluid.damping 0.25
+fluid.externalAcceleration 0 16 0
+fluid.restitutionForStaticShapes 0
+fluid.dynamicFrictionForStaticShapes 0
+fluid.restitutionForDynamicShapes 0
+fluid.dynamicFrictionForDynamicShapes 0.9
+# 2.8.0 (game) static friction: ignored by ours, forced 0 on the 2.8.1 oracle (same convention as sph_dambreak)
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+plane 0 1 0 0
+plane 0 -1 0 -3.0
+box 0.4 0.4 0.4  1.2 0.4 0.0
+block 16 6 16 0.1  -0.8 0.3 -0.8  0 0 0

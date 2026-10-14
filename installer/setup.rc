@@ -1,0 +1,52 @@
+// ShatterSetup.exe resources: manifest (common controls v6 for TaskDialog), the embedded release DLL, the game
+// settings dialog, version info.
+#include <winresrc.h>
+#include "../shim/version.h"
+#include "resource.h"
+
+1 24 "setup.manifest"
+PHYSXLOADER RCDATA SHATTER_DLL_PATH
+
+// Texts that depend on the file (current values, path) are set in WM_INITDIALOG.
+IDD_SETTINGS DIALOGEX 0, 0, 268, 240
+STYLE DS_SHELLFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Game settings"
+FONT 8, "MS Shell Dlg 2"
+BEGIN
+  GROUPBOX "Frame rate cap", -1, 7, 7, 254, 130
+  AUTORADIOBUTTON "62 fps (the game's default)", IDC_FPS_DEFAULT, 15, 20, 238, 10, WS_GROUP | WS_TABSTOP
+  AUTORADIOBUTTON "Custom:", IDC_FPS_CUSTOM, 15, 35, 42, 10
+  EDITTEXT IDC_FPS_VALUE, 59, 33, 34, 13, ES_NUMBER | WS_GROUP | WS_TABSTOP
+  LTEXT "fps (30 to 1000)", -1, 98, 35, 150, 10
+  LTEXT "", IDC_FPS_NOTE, 15, 52, 238, 64
+  AUTOCHECKBOX "", IDC_SLIDEFIX, 15, 119, 238, 10, WS_GROUP | WS_TABSTOP
+  AUTOCHECKBOX "", IDC_INTRO, 7, 144, 254, 10, WS_GROUP | WS_TABSTOP
+  LTEXT "", IDC_CURRENT, 7, 161, 254, 18
+  LTEXT "Settings file (close the game before saving, it rewrites this file):", -1, 7, 183, 254, 10
+  EDITTEXT IDC_PATH, 7, 194, 254, 13, ES_READONLY | ES_AUTOHSCROLL | WS_TABSTOP
+  DEFPUSHBUTTON "Save", IDOK, 157, 218, 50, 14, WS_GROUP
+  PUSHBUTTON "Cancel", IDCANCEL, 211, 218, 50, 14
+END
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION SHATTER_VERSION_MAJOR, SHATTER_VERSION_MINOR, SHATTER_VERSION_PATCH, 0
+ PRODUCTVERSION SHATTER_VERSION_MAJOR, SHATTER_VERSION_MINOR, SHATTER_VERSION_PATCH, 0
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904b0"
+    BEGIN
+      VALUE "FileDescription", "Shatter setup"
+      VALUE "FileVersion", SHATTER_VERSION_STR
+      VALUE "OriginalFilename", "ShatterSetup.exe"
+      VALUE "ProductName", "Shatter"
+      VALUE "ProductVersion", SHATTER_VERSION_STR
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1200
+  END
+END

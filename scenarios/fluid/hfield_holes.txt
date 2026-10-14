@@ -1,0 +1,24 @@
+# Same heightfield as hfield_drop with three holes (hfhole): particles over a hole fall through it, every other
+# particle must rest on the surface. Checks that holes match the core.
+dt 0.0166667
+steps 180
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 2000
+fluid.restParticlesPerMeter 50
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.packetSizeMultiplier 16
+fluid.restitutionForStaticShapes 0.2
+fluid.dynamicFrictionForStaticShapes 0.15
+fluid.damping 0.05
+hfield 40 40 0.5 0.5 0.1  -10 0 -10
+hfhole 8 8
+hfhole 12 24
+hfhole 28 14
+block 16 4 16 0.05  -6 8 -6  0 0 0
+block 16 4 16 0.05  2 14 -4  0 0 0
+block 12 4 12 0.05  -3 12 4  0 0 0
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0

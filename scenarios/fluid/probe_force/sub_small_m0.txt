@@ -1,0 +1,10 @@
+# probe_force: frame dt 0.005 with substep 0.004 (1 substep, 0.001 left); NX_FORCE 0.1 at steps 1 and 2 (the dt of step 0 sets the scale of step 1)
+dt 0.005
+steps 4
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.disableGravity 1
+timing 0.004 8
+block 1 1 1 0.02 0 1 0 0 0 0
+at 1 force 0 0 0.1 0 0
+at 2 force 0 0 0.1 0 0

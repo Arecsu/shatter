@@ -1,0 +1,21 @@
+# Collide-only debris dropped onto a yawed slab (a rotated static box: the shim turns it into triangles) and a
+# tilted plank, no ground plane: a particle that passes through the slab falls forever. Through the shim only
+# (the native run_scenario has no rotbox).
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 2000
+fluid.restParticlesPerMeter 50
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.packetSizeMultiplier 16
+fluid.restitutionForStaticShapes 0.2
+fluid.dynamicFrictionForStaticShapes 0.15
+fluid.damping 0.05
+rotbox 1.5 0.3 1.5  0 0 0  0 1 0 30
+rotbox 0.6 0.05 0.3  0.3 0.8 0  0 0 1 20
+block 12 4 12 0.05  -0.3 1.5 -0.3  0.5 0 0.1
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0

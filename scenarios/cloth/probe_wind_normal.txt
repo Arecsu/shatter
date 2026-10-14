@@ -1,0 +1,6 @@
+# Probe: 5x5 free-fall cloth with wind along the normal (0 5 0). Wind should act (signed by the vertex normal's sign).
+dt 0.0166667
+steps 30
+gravity 0 -9.81 0
+grid 5 5 0.1  0 1 0  xz
+cloth.windAcceleration 0 5 0

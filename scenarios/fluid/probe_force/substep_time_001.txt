@@ -1,0 +1,8 @@
+# probe_force: free particle moving at 1 m/s, frame dt 0.01 with timing 0.004 8 (substep count and leftover time)
+dt 0.01
+steps 6
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.disableGravity 1
+timing 0.004 8
+block 1 1 1 0.02 0 1 0 1 0 0

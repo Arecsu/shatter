@@ -1,0 +1,15 @@
+# band probe band_plane_B_h09_par: cfg B cd=1.2 m
+dt 0.0166667
+steps 10
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.maxParticles 16
+fluid.restParticlesPerMeter 10
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 12.0
+fluid.restitutionForStaticShapes 0.5
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+plane 0 1 0 0
+block 1 1 1 0.05 0 1.08 0 1 0 0

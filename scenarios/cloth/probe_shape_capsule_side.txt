@@ -1,0 +1,17 @@
+# probe: vertical 5x5 cloth (0.4 m) pinned at its top corners, hanging through a static capsule (axis along y, r 0.06, h 0.15,
+# centre (0.12, 0.7, 0)). The sheet is pushed out of the cylindrical side (x) and the end caps.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+cloth.thickness 0.04
+cloth.solverIterations 5
+cloth.bendingStiffness 0.5
+cloth.dampingCoefficient 0.2
+cloth.friction 0.5
+flag bending 1
+flag damping 1
+grid 5 5 0.1  -0.2 1.0 0  xy
+pin 0 0
+pin 4 0
+capsule 0.06 0.15  0.12 0.7 0
+plane 0 1 0 0

@@ -1,0 +1,47 @@
+# NVIDIA / Microsoft material: local only, never committed or redistributed
+/vendor-dlls/
+/third_party/
+/.toolchain/
+
+# Throwaway Wine prefix and build outputs
+/.wine-*/
+/build/
+/compile_commands.json
+
+# Run outputs (keep the directory)
+/captures/*
+!/captures/.gitkeep
+
+__pycache__/
+
+# Ghidra projects (contain NVIDIA code)
+/re/ghidra/
+/re/logs/
+/re/out/
+
+# Machine-specific notes and the session log (local only)
+/PERSONAL.md
+/.local.env
+.env
+.env.*
+!.env.example
+/scratchpad/
+/.cache/
+/docs/HANDOFF.md
+
+# Release outputs and run artifacts, wherever they land
+/dist/
+*.pdb
+*.pxcr
+*.pxsd
+*.bundle
+*.dll
+*.exe
+*.obj
+*.lib
+*.res
+*.zip
+*.log
+*.trace
+*.pem
+*.key

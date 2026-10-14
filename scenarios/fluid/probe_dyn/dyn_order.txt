@@ -1,0 +1,23 @@
+# (d) one particle at x=0 (the seam) between a static box and a dynamic box, both 0.5 wide with tops at y=0.5.
+# Restitution: static 0.8, dynamic 0.2. Shows which pass has the last word.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 16
+fluid.restParticlesPerMeter 20
+fluid.restDensity 1000
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.restitutionForStaticShapes 0.8
+fluid.restitutionForDynamicShapes 0.2
+fluid.staticFrictionForStaticShapes 0
+fluid.dynamicFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+fluid.dynamicFrictionForDynamicShapes 0
+fluid.collisionResponseCoefficient 0.2
+plane 0 1 0 0
+box 0.25 0.25 0.5  -0.25 0.25 0
+dynbox 0.25 0.25 0.5  0.25 0.25 0 1
+block 1 1 1 0.05  0 2.0 0  0 0 0

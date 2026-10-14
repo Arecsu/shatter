@@ -1,0 +1,7 @@
+# Probe: 5x5 free-fall cloth with wind acceleration along z (0 0 5), gravity on. The RE notes say wind acts only along
+# the vertex normal, so on a flat xz cloth (normal +-y) this should have NO effect.
+dt 0.0166667
+steps 30
+gravity 0 -9.81 0
+grid 5 5 0.1  0 1 0  xz
+cloth.windAcceleration 0 0 5

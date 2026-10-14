@@ -1,0 +1,26 @@
+# PRIORITY_MODE eviction count and order: 12 particles with distinct lifetimes, then 6 more (18 > max - reserve = 15).
+dt 0.0166667
+steps 20
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 20
+fluid.numReserveParticles 5
+fluid.flag PRIORITY_MODE
+fluid.restParticlesPerMeter 10
+fluid.writeIds 1
+plane 0 1 0 0
+at 0 add 1 1 1 0.2 -2.0 1 0 0 0 0 1.0
+at 0 add 1 1 1 0.2 -1.7 1 0 0 0 0 1.1
+at 0 add 1 1 1 0.2 -1.4 1 0 0 0 0 1.2
+at 0 add 1 1 1 0.2 -1.1 1 0 0 0 0 1.3
+at 0 add 1 1 1 0.2 -0.8 1 0 0 0 0 1.4
+at 0 add 1 1 1 0.2 -0.5 1 0 0 0 0 1.5
+at 0 add 1 1 1 0.2 -0.2 1 0 0 0 0 1.6
+at 0 add 1 1 1 0.2 0.1 1 0 0 0 0 1.7
+at 0 add 1 1 1 0.2 0.4 1 0 0 0 0 1.8
+at 0 add 1 1 1 0.2 0.7 1 0 0 0 0 1.9
+at 0 add 1 1 1 0.2 1.0 1 0 0 0 0 2.0
+at 0 add 1 1 1 0.2 1.3 1 0 0 0 0 2.1
+at 0 add 2 1 1 0.2 3 1 1 0 0 0
+at 3 add 2 1 2 0.2 0 1 2 0 0 0 3.0
+at 8 add 1 1 1 0.2 0 1 3 0 0 0 3.0

@@ -1,0 +1,15 @@
+# probe: 5x5 cloth (0.4 m) dropped flat onto the top hemisphere of a static capsule (axis along local y, r 0.2, h 0.2).
+# Tests the capsule's top end cap (sphere swept/inside/proximity) and the axis convention (the cap must be on +y).
+dt 0.0166667
+steps 40
+gravity 0 -9.81 0
+cloth.thickness 0.04
+cloth.solverIterations 5
+cloth.bendingStiffness 0.5
+cloth.dampingCoefficient 0.2
+cloth.friction 0.5
+flag bending 1
+flag damping 1
+grid 5 5 0.1  -0.2 1.0 -0.2  xz
+capsule 0.2 0.2  0 0.5 0
+plane 0 1 0 0

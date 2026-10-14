@@ -1,0 +1,14 @@
+# 21x21 cloth (2 m) dropped onto a static sphere (r 0.5) over a ground plane. Collision + draping.
+dt 0.0166667
+steps 240
+gravity 0 -9.81 0
+grid 21 21 0.1  -1 1.5 -1  xz
+cloth.thickness 0.04
+cloth.solverIterations 5
+cloth.bendingStiffness 0.5
+cloth.dampingCoefficient 0.2
+cloth.friction 0.5
+flag bending 1
+flag damping 1
+sphere 0.5  0 0.5 0
+plane 0 1 0 0

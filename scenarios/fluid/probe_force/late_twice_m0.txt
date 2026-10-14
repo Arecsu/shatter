@@ -1,0 +1,9 @@
+# probe_force: two NX_FORCE lines at step 1 (0.1 and 0.05 along x) add up
+dt 0.0166667
+steps 4
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.disableGravity 1
+
+block 1 1 1 0.02 0 1 0 0 0 0
+at 1 force 0 0 0.1 0 0 0 0.05 0 0

@@ -1,0 +1,9 @@
+# Self-collision, deterministic: 9x9 sheet with jitter 0.06 m (strong initial overlap), thickness 0.12, freefall.
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 9 9 0.1  -0.4 1.0 -0.4  xz
+cloth.thickness 0.12
+cloth.friction 0.5
+flag selfcollision 1
+jitter 0.06 2

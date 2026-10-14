@@ -1,0 +1,14 @@
+# Two-way (soft) attachment to the sphere via attachToCollidingShapes; static shapes give no reaction, the soft w term differs.
+# Exercises the attach calls and the shape type logged by the shim (shim/cloth_wrap.cpp).
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 1.5 -0.5  xz
+cloth.thickness 0.04
+cloth.solverIterations 5
+flag bending 1
+box 0.3 0.2 0.3  0 1.0 0
+sphere 0.2 0.5 1.6 0.0
+plane 0 1 0 0
+attach shape 0 1
+attach colliding 1

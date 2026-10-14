@@ -1,0 +1,15 @@
+# prox2 probe cfg A: ends step 9 at 1.2*cd above the plane, crosses on step 10 (does a proximity plane get cached?)
+dt 0.0166667
+steps 12
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 16
+fluid.restParticlesPerMeter 20
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.restitutionForStaticShapes 0.5
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+plane 0 1 0 0
+block 1 1 1 0.05  0 0.2198257 0  0 -0.6 0

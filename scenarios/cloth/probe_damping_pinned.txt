@@ -1,0 +1,10 @@
+# Probe: 5x5 cloth with its x=0 edge pinned (vertices (0,0),(0,4)), hanging/swinging under gravity, edge damping 0.5.
+# Relative edge velocities are nonzero, so the per-edge damping term is active.
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 5 5 0.1  0 1 0  xz
+pin 0 0
+pin 0 4
+cloth.dampingCoefficient 0.5
+flag damping 1

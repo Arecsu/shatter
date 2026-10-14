@@ -1,0 +1,15 @@
+# band probe band_sphere_A_h15_rest: cfg A cd=0.006 m
+dt 0.0166667
+steps 10
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.maxParticles 16
+fluid.restParticlesPerMeter 20
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.restitutionForStaticShapes 0.5
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+sphere 1 0 -1 0
+block 1 1 1 0.05 0 0.009 0 0 0 0

@@ -1,0 +1,20 @@
+# raycast at points equidistant from two or more corners of the hit triangle (tie rules), rest state (cloth settled).
+# Grid vertex ids: id = iy*11 + ix, x = -0.5 + 0.1 ix, z = -0.5 + 0.1 iy.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 0.5 -0.5  xz
+cloth.thickness 0.04
+cloth.friction 0.5
+plane 0 1 0 0
+raycast 119 0.05 2 0.0 0 -1 0
+raycast 119 0.0 2 0.05 0 -1 0
+raycast 119 0.05 2 -0.05 0 -1 0
+raycast 119 -0.05 2 0.05 0 -1 0
+raycast 119 0.05 2 0.1 0 -1 0
+raycast 119 0.02 2 0.07 0 -1 0
+raycast 119 0.1 2 0.05 0 -1 0
+raycast 119 -0.05 2 -0.05 0 -1 0
+raycast 119 0.0 2 0.0 0 -1 0
+raycast 119 0.0 2 0.0 0.1 -1 0.1
+raycast 119 0.5 2 -0.5 0 -1 0

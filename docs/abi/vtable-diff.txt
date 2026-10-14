@@ -1,0 +1,179 @@
+# public-ish classes (Nx*/Np*), vtable slot counts: v2.8.0.45 vs v2.8.1.57
+.?AVNpActor@@+0                                      [103]    [103]    
+.?AVNpActor@@+8                                      [1]      [1]      
+.?AVNpBoxForceFieldShape@@+0                         [6]      [6]      
+.?AVNpBoxForceFieldShape@@+72                        [11]     [11]     
+.?AVNpBoxShape@@+0                                   [44]     [44]     
+.?AVNpBoxShape@@+12                                  [4]      [4]      
+.?AVNpCCDSkeleton@@+0                                [5]      [5]      
+.?AVNpCapsuleForceFieldShape@@+0                     [6]      [6]      
+.?AVNpCapsuleForceFieldShape@@+72                    [14]     [14]     
+.?AVNpCapsuleShape@@+0                               [47]     [47]     
+.?AVNpCapsuleShape@@+12                              [4]      [4]      
+.?AVNpCloth@@+0                                      [92]     [92]     
+.?AVNpCloth@@+8                                      [1]      [1]      
+.?AVNpClothMesh@@+0                                  [3]      [3]      
+.?AVNpClothMesh@@+4                                  [1]      [1]      
+.?AVNpCompartment@@+0                                [14]     [14]     
+.?AVNpCompartment@@+4                                [1]      [1]      
+.?AVNpConvexForceFieldShape@@+0                      [6]      [7]      DIFF
+.?AVNpConvexForceFieldShape@@+72                     [9]      [9]      
+.?AVNpConvexMesh@@+0                                 [11]     [11]     
+.?AVNpConvexShape@@+0                                [43]     [43]     
+.?AVNpConvexShape@@+12                               [4]      [4]      
+.?AVNpCylindricalJoint@@+0                           [24]     [28]     DIFF
+.?AVNpCylindricalJoint@@+12                          [4]      [4]      
+.?AVNpD6Joint@@+0                                    [28]     [32]     DIFF
+.?AVNpD6Joint@@+12                                   [4]      [4]      
+.?AVNpDefaultScheduler@@+0                           [4]      [4]      
+.?AVNpDistanceJoint@@+0                              [24]     [28]     DIFF
+.?AVNpDistanceJoint@@+12                             [4]      [4]      
+.?AVNpEffector@@+0                                   [1]      [1]      
+.?AVNpFixedJoint@@+0                                 [24]     [28]     DIFF
+.?AVNpFixedJoint@@+12                                [4]      [4]      
+.?AVNpFluid@@+0                                      [81]     [81]     
+.?AVNpFluid@@+8                                      [1]      [1]      
+.?AVNpFluidEmitter@@+0                               [41]     [41]     
+.?AVNpFluidEmitter@@+8                               [1]      [1]      
+.?AVNpForceField@@+0                                 [36]     [36]     
+.?AVNpForceField@@+8                                 [1]      [1]      
+.?AVNpForceFieldLinearKernel@@+0                     [29]     [29]     
+.?AVNpForceFieldLinearKernel@@+8                     [1]      [1]      
+.?AVNpForceFieldShape@@+0                            [6]      [6]      
+.?AVNpForceFieldShapeGroup@@+0                       [12]     [13]     DIFF
+.?AVNpForceFieldShapeGroup@@+8                       [1]      [1]      
+.?AVNpHeightField@@+0                                [15]     [15]     
+.?AVNpHeightFieldShape@@+0                           [62]     [62]     
+.?AVNpHeightFieldShape@@+12                          [4]      [4]      
+.?AVNpInternalThread@@+0                             [3]      [3]      
+.?AVNpJoint@@+0                                      [4]      [4]      
+.?AVNpMaterial@@+0                                   [23]     [23]     
+.?AVNpMaterial@@+8                                   [1]      [1]      
+.?AVNpPhysicsSDK@@+0                                 [37]     [36]     DIFF
+.?AVNpPhysicsSDK@@+4                                 [4]      [4]      
+.?AVNpPlaneShape@@+0                                 [43]     [43]     
+.?AVNpPlaneShape@@+12                                [4]      [4]      
+.?AVNpPointInPlaneJoint@@+0                          [24]     [28]     DIFF
+.?AVNpPointInPlaneJoint@@+12                         [4]      [4]      
+.?AVNpPointOnLineJoint@@+0                           [24]     [28]     DIFF
+.?AVNpPointOnLineJoint@@+12                          [4]      [4]      
+.?AVNpPrismaticJoint@@+0                             [24]     [28]     DIFF
+.?AVNpPrismaticJoint@@+12                            [4]      [4]      
+.?AVNpPulleyJoint@@+0                                [28]     [32]     DIFF
+.?AVNpPulleyJoint@@+12                               [4]      [4]      
+.?AVNpRemoteDebuggerEventListener@@+0                [5]      [5]      
+.?AVNpRevoluteJoint@@+0                              [36]     [40]     DIFF
+.?AVNpRevoluteJoint@@+12                             [4]      [4]      
+.?AVNpScene@@+0                                      [156]    [170]    DIFF
+.?AVNpScene@@+12                                     [1]      [1]      
+.?AVNpScene@@+24                                     [3]      [3]      
+.?AVNpScene@@+28                                     [2]      [2]      
+.?AVNpShape@@+0                                      [4]      [4]      
+.?AVNpSoftBody@@+0                                   [83]     [83]     
+.?AVNpSoftBody@@+8                                   [1]      [1]      
+.?AVNpSoftBodyMesh@@+0                               [3]      [3]      
+.?AVNpSoftBodyMesh@@+4                               [1]      [1]      
+.?AVNpSphereForceFieldShape@@+0                      [6]      [6]      
+.?AVNpSphereForceFieldShape@@+72                     [11]     [11]     
+.?AVNpSphereShape@@+0                                [44]     [44]     
+.?AVNpSphereShape@@+12                               [4]      [4]      
+.?AVNpSphericalJoint@@+0                             [28]     [32]     DIFF
+.?AVNpSphericalJoint@@+12                            [4]      [4]      
+.?AVNpSpringAndDamperEffector@@+0                    [4]      [4]      
+.?AVNpSpringAndDamperEffector@@+12                   [11]     [11]     
+.?AVNpTriangleMesh@@+0                               [18]     [18]     
+.?AVNpTriangleMeshShape@@+0                          [49]     [49]     
+.?AVNpTriangleMeshShape@@+12                         [4]      [4]      
+.?AVNpUtilLib@@+0                                    [76]     [76]     
+.?AVNpWheelShape@@+0                                 [66]     [66]     
+.?AVNpWheelShape@@+12                                [4]      [4]      
+.?AVNxActor@@+0                                      [103]    [103]    
+.?AVNxBoxForceFieldShape@@+0                         [11]     [11]     
+.?AVNxBoxForceFieldShapeDesc@@+0                     None     [3]      DIFF
+.?AVNxBoxShape@@+0                                   [43]     [43]     
+.?AVNxBoxShapeDesc@@+0                               None     [3]      DIFF
+.?AVNxCCDSkeleton@@+0                                [5]      [5]      
+.?AVNxCapsuleForceFieldShape@@+0                     [14]     [14]     
+.?AVNxCapsuleForceFieldShapeDesc@@+0                 None     [3]      DIFF
+.?AVNxCapsuleShape@@+0                               [46]     [46]     
+.?AVNxCapsuleShapeDesc@@+0                           None     [3]      DIFF
+.?AVNxCloth@@+0                                      [92]     [92]     
+.?AVNxClothMesh@@+0                                  [3]      [3]      
+.?AVNxCompartment@@+0                                [14]     [14]     
+.?AVNxConvexForceFieldShape@@+0                      [9]      [9]      
+.?AVNxConvexMesh@@+0                                 [11]     [11]     
+.?AVNxConvexShape@@+0                                [42]     [42]     
+.?AVNxConvexShapeDesc@@+0                            None     [3]      DIFF
+.?AVNxCylindricalJoint@@+0                           [23]     [27]     DIFF
+.?AVNxCylindricalJointDesc@@+0                       None     [3]      DIFF
+.?AVNxD6Joint@@+0                                    [27]     [31]     DIFF
+.?AVNxD6JointDesc@@+0                                None     [3]      DIFF
+.?AVNxDistanceJoint@@+0                              [23]     [27]     DIFF
+.?AVNxDistanceJointDesc@@+0                          [3]      [3]      
+.?AVNxEffector@@+0                                   [5]      [5]      
+.?AVNxEffectorDesc@@+0                               None     [3]      DIFF
+.?AVNxFixedJoint@@+0                                 [23]     [27]     DIFF
+.?AVNxFixedJointDesc@@+0                             None     [3]      DIFF
+.?AVNxFluid@@+0                                      [81]     [81]     
+.?AVNxFluidEmitter@@+0                               [41]     [41]     
+.?AVNxForceField@@+0                                 [36]     [36]     
+.?AVNxForceFieldKernel@@+0                           [7]      [7]      
+.?AVNxForceFieldLinearKernel@@+0                     [29]     [29]     
+.?AVNxForceFieldShape@@+0                            [8]      [8]      
+.?AVNxForceFieldShapeDesc@@+0                        None     [3]      DIFF
+.?AVNxForceFieldShapeGroup@@+0                       [12]     [12]     
+.?AVNxFoundationSDK@@+0                              [9]      [10]     DIFF
+.?AVNxHeightField@@+0                                [15]     [15]     
+.?AVNxHeightFieldShape@@+0                           [55]     [55]     
+.?AVNxHeightFieldShapeDesc@@+0                       None     [3]      DIFF
+.?AVNxInterface@@+0                                  [3]      [3]      
+.?AVNxInterfaceStats@@+0                             [4]      [4]      
+.?AVNxJoint@@+0                                      [21]     [25]     DIFF
+.?AVNxJointDesc@@+0                                  [3]      [3]      
+.?AVNxMaterial@@+0                                   [23]     [23]     
+.?AVNxPhysicsSDK@@+0                                 [34]     [34]     
+.?AVNxPlaneShape@@+0                                 [42]     [42]     
+.?AVNxPlaneShapeDesc@@+0                             [3]      [3]      
+.?AVNxPointInPlaneJoint@@+0                          [23]     [27]     DIFF
+.?AVNxPointInPlaneJointDesc@@+0                      None     [3]      DIFF
+.?AVNxPointOnLineJoint@@+0                           [23]     [27]     DIFF
+.?AVNxPointOnLineJointDesc@@+0                       None     [3]      DIFF
+.?AVNxPrismaticJoint@@+0                             [23]     [27]     DIFF
+.?AVNxPrismaticJointDesc@@+0                         None     [3]      DIFF
+.?AVNxProfileData@@+0                                [2]      [2]      
+.?AVNxPulleyJoint@@+0                                [27]     [31]     DIFF
+.?AVNxPulleyJointDesc@@+0                            None     [3]      DIFF
+.?AVNxRemoteDebugger@@+0                             [26]     [26]     
+.?AVNxRemoteDebuggerEventListener@@+0                [5]      [5]      
+.?AVNxRevoluteJoint@@+0                              [35]     [39]     DIFF
+.?AVNxRevoluteJointDesc@@+0                          None     [3]      DIFF
+.?AVNxScene@@+0                                      [155]    [157]    DIFF
+.?AVNxSceneQuery@@+0                                 [19]     [19]     
+.?AVNxShape@@+0                                      [39]     [39]     
+.?AVNxShapeDesc@@+0                                  [3]      [3]      
+.?AVNxSoftBody@@+0                                   [83]     [83]     
+.?AVNxSoftBodyMesh@@+0                               [3]      [3]      
+.?AVNxSphereForceFieldShape@@+0                      [11]     [11]     
+.?AVNxSphereForceFieldShapeDesc@@+0                  None     [3]      DIFF
+.?AVNxSphereShape@@+0                                [43]     [43]     
+.?AVNxSphereShapeDesc@@+0                            [3]      [3]      
+.?AVNxSphericalJoint@@+0                             [27]     [31]     DIFF
+.?AVNxSphericalJointDesc@@+0                         None     [3]      DIFF
+.?AVNxSpringAndDamperEffector@@+0                    [11]     [11]     
+.?AVNxSpringAndDamperEffectorDesc@@+0                None     [3]      DIFF
+.?AVNxSweepCache@@+0                                 [2]      [2]      
+.?AVNxTask@@+0                                       [2]      [2]      
+.?AVNxThread@@+0                                     [3]      [3]      
+.?AVNxTireFunctionDesc@@+0                           [3]      [3]      
+.?AVNxTriangleMesh@@+0                               [18]     [18]     
+.?AVNxTriangleMeshShape@@+0                          [48]     [48]     
+.?AVNxTriangleMeshShapeDesc@@+0                      None     [3]      DIFF
+.?AVNxUserAllocator@@+0                              [8]      [8]      
+.?AVNxUserAllocatorDefault@@+0                       [8]      [8]      
+.?AVNxUserContactReport@@+0                          [2]      [2]      
+.?AVNxUserRaycastReport@@+0                          [2]      [2]      
+.?AVNxUserScheduler@@+0                              [4]      [4]      
+.?AVNxUserTriggerReport@@+0                          [2]      [2]      
+.?AVNxUtilLib@@+0                                    [76]     [76]     
+.?AVNxWheelShape@@+0                                 [65]     [65]     
+.?AVNxWheelShapeDesc@@+0                             [4]      [4]      

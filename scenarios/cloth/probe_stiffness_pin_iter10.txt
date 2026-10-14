@@ -1,0 +1,10 @@
+# Probe: 5x5 cloth with its x=0 edge pinned, free to hang and stretch under gravity (no collision), stretchingStiffness 0.5,
+# solverIterations 10. probe_stiffness_iter*.txt drop onto a plane and never stretch, so this variant is the informative one.
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 5 5 0.1  0 1 0  xz
+pin 0 0
+pin 0 4
+cloth.stretchingStiffness 0.5
+cloth.solverIterations 10

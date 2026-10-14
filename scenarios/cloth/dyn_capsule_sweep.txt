@@ -1,0 +1,23 @@
+# Moving kinematic capsule (player stand-in) sweeping in +z through a sheet pinned along its top row. 1 m/s: 1.7 cm/step,
+# well inside the swept range. Hanging sheet at z=0, capsule axis vertical.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 2.0 0  xy
+cloth.thickness 0.04
+cloth.solverIterations 5
+flag bending 1
+pin 0 0
+pin 1 0
+pin 2 0
+pin 3 0
+pin 4 0
+pin 5 0
+pin 6 0
+pin 7 0
+pin 8 0
+pin 9 0
+pin 10 0
+capsule 0.1 0.6  0 1.5 -0.8
+kinematic 0
+move 0 0 0 1.0

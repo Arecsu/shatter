@@ -1,0 +1,25 @@
+# Like PX_GlassEffects.Glass: collide-only shards bursting out of a pane and landing on a floor and a ledge.
+# UE3 -> metres at 1 uu = 0.02 m [A]. RestParticleDistance 64 uu (engine default) -> 1.28 m;
+#   CollisionDistance 2 uu -> 0.04 m (x0.03125); MaxMotionDistance 16 uu -> 0.32 m (x0.25).
+dt 0.0166667
+steps 180
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 1300
+fluid.restParticlesPerMeter 0.78125
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 0.25
+fluid.collisionDistanceMultiplier 0.03125
+fluid.packetSizeMultiplier 16
+fluid.restitutionForStaticShapes 0.25
+fluid.dynamicFrictionForStaticShapes 0.05
+fluid.restitutionForDynamicShapes 0.05
+fluid.dynamicFrictionForDynamicShapes 0.02
+fluid.damping 0.05
+plane 0 1 0 0
+box 0.6 0.4 1.0  1.6 0.4 0
+sphere 0.25  -0.8 0.25 0.6
+block 1 25 40 0.05  0 0.8 -1.0  3.0 1.5 0
+block 1 25 12 0.05  0 0.8 1.0  -2.5 2.0 0.5
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0

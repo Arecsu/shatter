@@ -1,0 +1,9 @@
+# shim_sleep_at_create: putToSleep before the first simulate (Escape_p respawn creates its cloths and puts them to sleep
+# in the same frame). The sleeping cloth must stay where it was created; before the fix the shim dropped the call.
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 1.5 -0.5  xz
+cloth.thickness 0.04
+plane 0 1 0 0
+sleep

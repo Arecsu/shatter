@@ -1,0 +1,11 @@
+# Probe: 5x5 cloth dropped 0.5 m onto a horizontal plane (as drop_plane), stretchingStiffness 0.5, solverIterations 10.
+# Compare iter1 vs iter10 to isolate the per-iteration stiffness s = 1-(1-k)^(1/N).
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 5 5 0.1  -0.2 0.5 -0.2  xz
+cloth.thickness 0.04
+cloth.friction 0.5
+cloth.stretchingStiffness 0.5
+cloth.solverIterations 10
+plane 0 1 0 0

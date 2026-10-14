@@ -1,0 +1,22 @@
+# (c2) same as dyn_twoway but the shape has no FLUID_TWOWAY flag (fluid flag on). Box should not react.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 16
+fluid.restParticlesPerMeter 20
+fluid.restDensity 1000
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.restitutionForStaticShapes 0.8
+fluid.restitutionForDynamicShapes 0.2
+fluid.staticFrictionForStaticShapes 0
+fluid.dynamicFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+fluid.dynamicFrictionForDynamicShapes 0
+fluid.collisionResponseCoefficient 0.2
+fluid.flag COLLISION_TWOWAY 1
+plane 0 1 0 0
+dynbox 0.5 0.1 0.5 0 0.1 0 1
+block 4 1 4 0.05  -0.075 2.0 -0.075  0 0 0

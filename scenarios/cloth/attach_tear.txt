@@ -1,0 +1,13 @@
+# Tearable one-way attachments to the sphere (attachment tear factor 1.1) on a soft sheet, so edges stretch past the factor.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 1.5 -0.5  xz
+cloth.thickness 0.04
+cloth.solverIterations 5
+cloth.stretchingStiffness 0.3
+cloth.attachmentTearFactor 1.1
+flag bending 1
+sphere 0.2 0.5 1.6 0.0
+plane 0 1 0 0
+attach colliding 2

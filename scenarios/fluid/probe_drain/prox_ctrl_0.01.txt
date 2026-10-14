@@ -1,0 +1,17 @@
+# proximity drain, particle at top+0.01
+dt 0.0166667
+steps 8
+gravity 0 -9.81 0
+fluid.simulationMethod none
+fluid.maxParticles 128
+fluid.restParticlesPerMeter 20
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0
+fluid.disableGravity 0
+plane 0 1 0 0
+fluid.disableGravity 1
+box 0.2 0.05 0.2  0 0.15 0
+block 1 1 1 0.05  0 0.21 0  0 0 0

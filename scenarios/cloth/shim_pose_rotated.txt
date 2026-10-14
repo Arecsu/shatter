@@ -1,0 +1,18 @@
+# shim_pose_rotated: a cloth created with a non-symmetric pose (the game's 90 degree turn about y, Mirror's Edge banners
+# 960-vertex mesh), top row re-pinned every frame as UE3 does. NxMat33 is row-major; a shim that applied the transpose
+# created the cloth mirrored about the pose origin and the first re-pin tore it apart. Shim scenario (run_scenario
+# has no pose).
+dt 0.0166667
+steps 60
+gravity 0 -9.81 0
+grid 11 11 0.1  0.2 -1.0 0  xy
+cloth.pose 0 0 1  0 1 0  -1 0 0  2 1.5 1
+cloth.thickness 0.01
+flag tearable 1
+pin 0 10
+pin 2 10
+pin 4 10
+pin 6 10
+pin 8 10
+pin 10 10
+repin

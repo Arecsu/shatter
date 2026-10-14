@@ -1,0 +1,23 @@
+# Same as dyn_twoway_float, but the particle is removed before step 12 (right after its only contact at step 11).
+# Does the box keep receiving the spread impulse without the particle?
+# Two-way ON, coef 0.2. Tests whether the 0.1 factor came from ground contact.
+dt 0.0166667
+steps 60
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.maxParticles 16
+fluid.restParticlesPerMeter 20
+fluid.restDensity 1000
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 3.0
+fluid.collisionDistanceMultiplier 0.12
+fluid.restitutionForStaticShapes 0.8
+fluid.restitutionForDynamicShapes 0.2
+fluid.staticFrictionForDynamicShapes 0
+fluid.dynamicFrictionForDynamicShapes 0
+fluid.collisionResponseCoefficient 0.2
+fluid.flag COLLISION_TWOWAY 1
+dynbox 0.5 0.1 0.5 0 0 0 1
+shapeflag FLUID_TWOWAY
+block 1 1 1 0.05  0 0.5 0  0 -2 0
+at 12 removeAll

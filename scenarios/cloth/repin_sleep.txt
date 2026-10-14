@@ -1,0 +1,14 @@
+# repin_sleep: the game's pattern for its banners (Escape_p recordings): created, put to sleep in the same frame, then
+# its fixed vertices re-pinned with attachVertexToGlobalPosition every frame. In the 2.8.0 core every accepted call
+# resets the wake counter (Cloth slot 90, 0x100e5800 -> wakeUp(wakeUpCounter)), so the banner wakes on the first frame
+# and hangs; it never sleeps while the game keeps pinning.
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 1.5 0  xy
+cloth.thickness 0.01
+pin 0 10
+pin 5 10
+pin 10 10
+sleep
+repin

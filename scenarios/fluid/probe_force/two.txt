@@ -1,0 +1,8 @@
+# probe_force: two particles, NX_VELOCITY_CHANGE only on id 1
+dt 0.0166667
+steps 4
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.disableGravity 1
+block 2 1 1 0.2 0 1 0 0 0 0
+at 0 force 2 1 0 0.1 0

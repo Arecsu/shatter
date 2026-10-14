@@ -1,0 +1,8 @@
+# probe_force: same as collide_now but the velocity is the initial block velocity (reference: force = initial velocity?)
+dt 0.0166667
+steps 4
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.disableGravity 1
+plane 0 1 0 0
+block 1 1 1 0.02 0 0.005 0 0 -0.5 0

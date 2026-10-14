@@ -1,0 +1,29 @@
+# Like Fluid.SteamSmokeGround (PX_LevelEffects), SPH steam rising under a ceiling and around a beam.
+# UE3 -> metres at 1 uu = 0.02 m [A] (the exe's real conversion is not read yet), Z-up -> Y-up.
+#   RestParticleDistance 5 uu -> 0.1 m; MaxMotionDistance 4 uu -> 0.08 m (x0.8 spacing);
+#   CollisionDistance 10 uu (engine default) -> 0.2 m (x2.0); ExternalAcceleration +800 uu/s^2 -> +16 m/s^2 up.
+dt 0.0166667
+steps 240
+gravity 0 -9.81 0
+fluid.simulationMethod sph
+fluid.maxParticles 5000
+fluid.restParticlesPerMeter 10
+fluid.restDensity 1000
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 0.8
+fluid.collisionDistanceMultiplier 2.0
+fluid.packetSizeMultiplier 16
+fluid.stiffness 20
+fluid.viscosity 6
+fluid.damping 0.25
+fluid.restitutionForStaticShapes 0
+fluid.dynamicFrictionForStaticShapes 0
+fluid.restitutionForDynamicShapes 0
+fluid.dynamicFrictionForDynamicShapes 0.9
+fluid.externalAcceleration 0 16 0
+plane 0 1 0 0
+plane 0 -1 0 -3.0
+box 0.4 0.15 2.0  0.6 1.6 0
+block 16 6 16 0.1  -0.8 0.2 -0.8  0 0 0
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0

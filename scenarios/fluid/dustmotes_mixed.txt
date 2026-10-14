@@ -1,0 +1,27 @@
+# Like Fluid.Dustmotes: ESM_MIXED_MODE, gravity off, weak stiffness, drifting into a box.
+# UE3 -> metres at 1 uu = 0.02 m [A]. RestParticleDistance 15 uu -> 0.3 m; MaxMotionDistance 1 uu -> 0.02 m
+#   (x0.0667); CollisionDistance 10 uu (default) -> 0.2 m (x0.667). Lattice at 0.25 m so pressure is active.
+dt 0.0166667
+steps 240
+gravity 0 -9.81 0
+fluid.disableGravity 1
+fluid.simulationMethod mixed
+fluid.maxParticles 10000
+fluid.restParticlesPerMeter 3.3333333
+fluid.restDensity 1000
+fluid.kernelRadiusMultiplier 2.0
+fluid.motionLimitMultiplier 0.0666667
+fluid.collisionDistanceMultiplier 0.6666667
+fluid.packetSizeMultiplier 8
+fluid.stiffness 5
+fluid.viscosity 5
+fluid.damping 0.1
+fluid.restitutionForStaticShapes 0
+fluid.dynamicFrictionForStaticShapes 0
+fluid.restitutionForDynamicShapes 0.02
+fluid.dynamicFrictionForDynamicShapes 0
+plane 0 1 0 0
+box 0.5 1.0 1.5  4.0 1.0 0
+block 20 8 20 0.25  -2.5 0.3 -2.5  0.6 0 0
+fluid.staticFrictionForStaticShapes 0
+fluid.staticFrictionForDynamicShapes 0

@@ -1,0 +1,24 @@
+# Valid bounds (NX_CLF_VALIDBOUNDS, row 4 probe): a vertical 11x11 sheet (1 m) hangs from its top row (pinned, x -0.5..0.5).
+# A constant external acceleration of 12 m/s^2 along +x (acts on the free particles only; wind would act along the
+# surface normal, which is z for this sheet) swings it out like a pendulum (equilibrium ~51 deg from vertical).
+# The bound x <= 0.6 lies inside the swing: the outer, lower particles leave it and are removed and frozen; the
+# top row stays inside. Bounds are large on y and z.
+dt 0.0166667
+steps 180
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 1.5 0  xy
+cloth.thickness 0.02
+cloth.externalAcceleration 12 0 0
+flag validbounds 1
+bounds -10 -10 -10  0.6 10 10
+pin 0 0
+pin 1 0
+pin 2 0
+pin 3 0
+pin 4 0
+pin 5 0
+pin 6 0
+pin 7 0
+pin 8 0
+pin 9 0
+pin 10 0

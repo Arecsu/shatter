@@ -1,0 +1,23 @@
+# Cantilever: horizontal 21x6 strip (2 m x 0.5 m) pinned along its x=0 edge; droops under gravity.
+# bending: off (off = no NX_CLF_BENDING; dist = BENDING; ortho = BENDING|BENDING_ORTHO).
+dt 0.0166667
+steps 180
+gravity 0 -9.81 0
+grid 21 6 0.1  0 1 0  xz
+cloth.thickness 0.04
+cloth.solverIterations 10
+cloth.bendingStiffness 1
+cloth.dampingCoefficient 0.5
+flag damping 1
+pin 0 0
+pin 0 1
+pin 0 2
+pin 0 3
+pin 0 4
+pin 0 5
+pin 1 0
+pin 1 1
+pin 1 2
+pin 1 3
+pin 1 4
+pin 1 5

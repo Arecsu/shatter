@@ -1,0 +1,8 @@
+# probe_force: block velocity 0.1 along x with fluid.damping 0.5 (reference for damp_vc)
+dt 0.0166667
+steps 4
+gravity 0 0 0
+fluid.simulationMethod none
+fluid.disableGravity 1
+fluid.damping 0.5
+block 1 1 1 0.02 0 1 0 0.1 0 0

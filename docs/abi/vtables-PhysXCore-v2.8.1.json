@@ -1,0 +1,1517 @@
+{
+ ".?AUImpulseAccumulator@PxsContactConstraint@@+0": [
+  3
+ ],
+ ".?AUNpForceFieldTask@@+0": [
+  2
+ ],
+ ".?AUPersistentPatch@PxsContactCallbackPatch@@+0": [
+  3
+ ],
+ ".?AUSolverCallback@PxsD6Joint@@+0": [
+  3
+ ],
+ ".?AV?$PxgPackableClient@I$0IA@@@+0": [
+  1
+ ],
+ ".?AV?$PxgPackableClient@M$0IA@@@+0": [
+  1
+ ],
+ ".?AV?$PxgPackableClient@UPxgFluidCollisionInfo@@$0BAA@@@+0": [
+  1
+ ],
+ ".?AV?$PxgPackableClient@UPxgFluidParameters@@$00@@+0": [
+  1
+ ],
+ ".?AV?$PxgPackableClient@VPxcVectorPad@@$0CAA@@@+0": [
+  1
+ ],
+ ".?AV?$PxsBroadPhasePairMapBase@UPxsBpSmallVolume@@@@+0": [
+  3
+ ],
+ ".?AV?$PxsBroadPhasePairMapBase@UPxsBpSmallVolumeMulti@@@@+0": [
+  3
+ ],
+ ".?AVAABBCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVAABBOptimizedTree@Opcode@@+0": [
+  8
+ ],
+ ".?AVAABBStacklessCollisionTree@Opcode@@+0": [
+  8
+ ],
+ ".?AVAABBStacklessNoLeafTree@Opcode@@+0": [
+  8
+ ],
+ ".?AVAABBStacklessQuantizedNoLeafTree@Opcode@@+0": [
+  8
+ ],
+ ".?AVAABBStacklessQuantizedTree@Opcode@@+0": [
+  8
+ ],
+ ".?AVAABBTreeBuilder@Opcode@@+0": [
+  6
+ ],
+ ".?AVAABBTreeOfAABBsBuilder@Opcode@@+0": [
+  6
+ ],
+ ".?AVAABBTreeOfTrianglesBuilder@Opcode@@+0": [
+  6
+ ],
+ ".?AVActor@@+0": [
+  1
+ ],
+ ".?AVAgPPUConnection@@+0": [
+  35
+ ],
+ ".?AVAgPPUConnectionAllocator@@+0": [
+  3
+ ],
+ ".?AVAgPPUConnectionDefaultAllocator@@+0": [
+  3
+ ],
+ ".?AVAgPPUConnectionImpl@@+0": [
+  35
+ ],
+ ".?AVArticulationMaximal@@+0": [
+  7
+ ],
+ ".?AVArticulationNode@@+0": [
+  7
+ ],
+ ".?AVAsyncScene@@+0": [
+  9
+ ],
+ ".?AVAsyncSceneThread@@+0": [
+  3
+ ],
+ ".?AVBaseModel@Opcode@@+0": [
+  8
+ ],
+ ".?AVBatchedQueryTask@@+0": [
+  2
+ ],
+ ".?AVBody@@+0": [
+  51
+ ],
+ ".?AVBody@@+120": [
+  123
+ ],
+ ".?AVBody@@+204": [
+  1
+ ],
+ ".?AVBody@@+4": [
+  14
+ ],
+ ".?AVBodyPairEffector@@+0": [
+  15
+ ],
+ ".?AVBodyPairEffector@@+4": [
+  1
+ ],
+ ".?AVBoxShape@@+0": [
+  145
+ ],
+ ".?AVBoxShape@@+380": [
+  11
+ ],
+ ".?AVBoxShape@@+4": [
+  3
+ ],
+ ".?AVCapsuleShape@@+0": [
+  141
+ ],
+ ".?AVCapsuleShape@@+4": [
+  3
+ ],
+ ".?AVClonedConvexMesh@@+0": [
+  11
+ ],
+ ".?AVClonedHeightField@@+0": [
+  15
+ ],
+ ".?AVClonedTriangleMesh@@+0": [
+  18
+ ],
+ ".?AVCloth@@+0": [
+  124
+ ],
+ ".?AVClothManager@@+0": [
+  1
+ ],
+ ".?AVClothMesh@@+0": [
+  7
+ ],
+ ".?AVCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVCollisionHull@@+0": [
+  2
+ ],
+ ".?AVCollisionMap@@+0": [
+  1
+ ],
+ ".?AVContactCallback@SceneManager@@+0": [
+  2
+ ],
+ ".?AVConvexHull@@+0": [
+  2
+ ],
+ ".?AVConvexMesh@@+0": [
+  16
+ ],
+ ".?AVConvexMeshInterface@@+0": [
+  11
+ ],
+ ".?AVConvexMeshRuntime@@+0": [
+  16
+ ],
+ ".?AVConvexMeshRuntime@@+348": [
+  11
+ ],
+ ".?AVConvexShape@@+0": [
+  141
+ ],
+ ".?AVConvexShape@@+4": [
+  3
+ ],
+ ".?AVCoreActor@@+0": [
+  14
+ ],
+ ".?AVCoreElement@@+0": [
+  3
+ ],
+ ".?AVCoreInteraction@@+0": [
+  3
+ ],
+ ".?AVCylindricalJoint@@+0": [
+  123
+ ],
+ ".?AVD6Joint@@+0": [
+  123
+ ],
+ ".?AVDefaultAllocator@@+0": [
+  4
+ ],
+ ".?AVDistanceJoint@@+0": [
+  120
+ ],
+ ".?AVDynamicPruner2@Opcode@@+0": [
+  14
+ ],
+ ".?AVEffector@@+0": [
+  14
+ ],
+ ".?AVEffector@@+4": [
+  1
+ ],
+ ".?AVElementInteraction@@+8": [
+  7
+ ],
+ ".?AVElementInteractionMarker@@+0": [
+  3
+ ],
+ ".?AVElementInteractionMarker@@+8": [
+  7
+ ],
+ ".?AVExternalContactProxy@PxsContactCallbackPatch@@+0": [
+  36
+ ],
+ ".?AVExternalContactProxy@PxsContactCallbackQuat@@+0": [
+  36
+ ],
+ ".?AVFixedJoint@@+0": [
+  120
+ ],
+ ".?AVFluid@@+0": [
+  14
+ ],
+ ".?AVFluid@@+116": [
+  91
+ ],
+ ".?AVFluidElementRbElementInteraction@@+0": [
+  3
+ ],
+ ".?AVFluidElementRbElementInteraction@@+8": [
+  7
+ ],
+ ".?AVFluidEmitter@@+0": [
+  40
+ ],
+ ".?AVFluidEmitterPressure@@+0": [
+  40
+ ],
+ ".?AVFluidEmitterRate@@+0": [
+  40
+ ],
+ ".?AVFluidPacketShape@@+0": [
+  4
+ ],
+ ".?AVForceFieldManager@@+0": [
+  4
+ ],
+ ".?AVFoundationSDK@NxFoundation@@+0": [
+  1
+ ],
+ ".?AVFoundationSDK@NxFoundation@@+24": [
+  10
+ ],
+ ".?AVFreePruner@Opcode@@+0": [
+  13
+ ],
+ ".?AVGaussMap@@+0": [
+  2
+ ],
+ ".?AVHeightField@@+0": [
+  16
+ ],
+ ".?AVHeightFieldShape@@+0": [
+  142
+ ],
+ ".?AVHeightFieldShape@@+4": [
+  3
+ ],
+ ".?AVHybridAABBCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVHybridLSSCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVHybridModel@Opcode@@+0": [
+  8
+ ],
+ ".?AVHybridOBBCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVHybridPlanesCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVHybridRayCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVHybridSphereCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVIceAllocator@@+0": [
+  4
+ ],
+ ".?AVInputStream@meq@@+0": [
+  3
+ ],
+ ".?AVJoint@@+0": [
+  120
+ ],
+ ".?AVJointInteraction@@+0": [
+  7
+ ],
+ ".?AVJointInteraction@@+28": [
+  3
+ ],
+ ".?AVLSSCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVLocalOverlapReport@@+0": [
+  1
+ ],
+ ".?AVLocalRaycastReport@@+0": [
+  2
+ ],
+ ".?AVLocalSweepReport@@+0": [
+  1
+ ],
+ ".?AVLowLevelThreadingTask@@+0": [
+  2
+ ],
+ ".?AVMaterial@@+0": [
+  23
+ ],
+ ".?AVMemoryInputStream@meq@@+0": [
+  3
+ ],
+ ".?AVMemoryOutputStream@meq@@+0": [
+  5
+ ],
+ ".?AVMirrorManager@@+0": [
+  9
+ ],
+ ".?AVMirrorManager@@+4": [
+  4
+ ],
+ ".?AVModel@Opcode@@+0": [
+  8
+ ],
+ ".?AVNPhaseContext@@+0": [
+  1
+ ],
+ ".?AVNfBody@@+0": [
+  51
+ ],
+ ".?AVNfCloth@@+0": [
+  124
+ ],
+ ".?AVNfClothBoundsHash@@+0": [
+  1
+ ],
+ ".?AVNfClothPPUInterface@@+0": [
+  11
+ ],
+ ".?AVNfClothPPUInterfaceHw@@+0": [
+  11
+ ],
+ ".?AVNfDmaManager@@+0": [
+  3
+ ],
+ ".?AVNfDmaTaskFluidMesh@@+0": [
+  2
+ ],
+ ".?AVNfDmaTaskPool@@+0": [
+  2
+ ],
+ ".?AVNfFluid@@+0": [
+  91
+ ],
+ ".?AVNfFluidEmitter@@+0": [
+  40
+ ],
+ ".?AVNfFluidEmitterPressure@@+0": [
+  40
+ ],
+ ".?AVNfFluidEmitterRate@@+0": [
+  40
+ ],
+ ".?AVNfFluidMesh@@+0": [
+  4
+ ],
+ ".?AVNfFluidMeshCuisine@@+0": [
+  3
+ ],
+ ".?AVNfFluidMeshDynamic@@+0": [
+  4
+ ],
+ ".?AVNfFluidMeshStatic@@+0": [
+  4
+ ],
+ ".?AVNfFluidPPUInterface@@+0": [
+  31
+ ],
+ ".?AVNfFluidPPUInterfaceHw@@+0": [
+  31
+ ],
+ ".?AVNfFluidPPUInterfaceSwRef@@+0": [
+  31
+ ],
+ ".?AVNfHeapManager@@+0": [
+  6
+ ],
+ ".?AVNfHeapManagerInterface@@+0": [
+  6
+ ],
+ ".?AVNfMaterial@@+0": [
+  23
+ ],
+ ".?AVNfMeshPreCooker@@+0": [
+  2
+ ],
+ ".?AVNfPhysicsSDK@@+0": [
+  16
+ ],
+ ".?AVNfRawTriangleMesh@@+0": [
+  4
+ ],
+ ".?AVNfScene@@+0": [
+  149
+ ],
+ ".?AVNfShape@@+0": [
+  123
+ ],
+ ".?AVNgBody@@+0": [
+  51
+ ],
+ ".?AVNgCloth@@+0": [
+  124
+ ],
+ ".?AVNgClothBoundsHash@@+0": [
+  1
+ ],
+ ".?AVNgClothGpuInterface@@+0": [
+  1
+ ],
+ ".?AVNgFluid@@+0": [
+  91
+ ],
+ ".?AVNgFluidEmitter@@+0": [
+  40
+ ],
+ ".?AVNgFluidEmitterPressure@@+0": [
+  40
+ ],
+ ".?AVNgFluidEmitterRate@@+0": [
+  40
+ ],
+ ".?AVNgFluidMesh@@+0": [
+  4
+ ],
+ ".?AVNgFluidMeshDynamic@@+0": [
+  4
+ ],
+ ".?AVNgFluidMeshStatic@@+0": [
+  4
+ ],
+ ".?AVNgMaterial@@+0": [
+  23
+ ],
+ ".?AVNgMeshPreCooker@@+0": [
+  2
+ ],
+ ".?AVNgPhysicsSDK@@+0": [
+  16
+ ],
+ ".?AVNgRawTriangleMesh@@+0": [
+  4
+ ],
+ ".?AVNgScene@@+0": [
+  149
+ ],
+ ".?AVNgShape@@+0": [
+  123
+ ],
+ ".?AVNpActor@@+0": [
+  103
+ ],
+ ".?AVNpActor@@+8": [
+  1
+ ],
+ ".?AVNpBoxForceFieldShape@@+0": [
+  6
+ ],
+ ".?AVNpBoxForceFieldShape@@+72": [
+  11
+ ],
+ ".?AVNpBoxShape@@+0": [
+  44
+ ],
+ ".?AVNpBoxShape@@+12": [
+  4
+ ],
+ ".?AVNpCCDSkeleton@@+0": [
+  5
+ ],
+ ".?AVNpCapsuleForceFieldShape@@+0": [
+  6
+ ],
+ ".?AVNpCapsuleForceFieldShape@@+72": [
+  14
+ ],
+ ".?AVNpCapsuleShape@@+0": [
+  47
+ ],
+ ".?AVNpCapsuleShape@@+12": [
+  4
+ ],
+ ".?AVNpCloth@@+0": [
+  92
+ ],
+ ".?AVNpCloth@@+8": [
+  1
+ ],
+ ".?AVNpClothMesh@@+0": [
+  3
+ ],
+ ".?AVNpClothMesh@@+4": [
+  1
+ ],
+ ".?AVNpCompartment@@+0": [
+  14
+ ],
+ ".?AVNpCompartment@@+4": [
+  1
+ ],
+ ".?AVNpConvexForceFieldShape@@+0": [
+  7
+ ],
+ ".?AVNpConvexForceFieldShape@@+72": [
+  9
+ ],
+ ".?AVNpConvexMesh@@+0": [
+  11
+ ],
+ ".?AVNpConvexShape@@+0": [
+  43
+ ],
+ ".?AVNpConvexShape@@+12": [
+  4
+ ],
+ ".?AVNpCylindricalJoint@@+0": [
+  28
+ ],
+ ".?AVNpCylindricalJoint@@+12": [
+  4
+ ],
+ ".?AVNpD6Joint@@+0": [
+  32
+ ],
+ ".?AVNpD6Joint@@+12": [
+  4
+ ],
+ ".?AVNpDefaultScheduler@@+0": [
+  4
+ ],
+ ".?AVNpDistanceJoint@@+0": [
+  28
+ ],
+ ".?AVNpDistanceJoint@@+12": [
+  4
+ ],
+ ".?AVNpEffector@@+0": [
+  1
+ ],
+ ".?AVNpFixedJoint@@+0": [
+  28
+ ],
+ ".?AVNpFixedJoint@@+12": [
+  4
+ ],
+ ".?AVNpFluid@@+0": [
+  81
+ ],
+ ".?AVNpFluid@@+8": [
+  1
+ ],
+ ".?AVNpFluidEmitter@@+0": [
+  41
+ ],
+ ".?AVNpFluidEmitter@@+8": [
+  1
+ ],
+ ".?AVNpForceField@@+0": [
+  36
+ ],
+ ".?AVNpForceField@@+8": [
+  1
+ ],
+ ".?AVNpForceFieldLinearKernel@@+0": [
+  29
+ ],
+ ".?AVNpForceFieldLinearKernel@@+8": [
+  1
+ ],
+ ".?AVNpForceFieldShape@@+0": [
+  6
+ ],
+ ".?AVNpForceFieldShapeGroup@@+0": [
+  13
+ ],
+ ".?AVNpForceFieldShapeGroup@@+8": [
+  1
+ ],
+ ".?AVNpHeightField@@+0": [
+  15
+ ],
+ ".?AVNpHeightFieldShape@@+0": [
+  62
+ ],
+ ".?AVNpHeightFieldShape@@+12": [
+  4
+ ],
+ ".?AVNpInternalThread@@+0": [
+  3
+ ],
+ ".?AVNpJoint@@+0": [
+  4
+ ],
+ ".?AVNpMaterial@@+0": [
+  23
+ ],
+ ".?AVNpMaterial@@+8": [
+  1
+ ],
+ ".?AVNpPhysicsSDK@@+0": [
+  36
+ ],
+ ".?AVNpPhysicsSDK@@+4": [
+  4
+ ],
+ ".?AVNpPlaneShape@@+0": [
+  43
+ ],
+ ".?AVNpPlaneShape@@+12": [
+  4
+ ],
+ ".?AVNpPointInPlaneJoint@@+0": [
+  28
+ ],
+ ".?AVNpPointInPlaneJoint@@+12": [
+  4
+ ],
+ ".?AVNpPointOnLineJoint@@+0": [
+  28
+ ],
+ ".?AVNpPointOnLineJoint@@+12": [
+  4
+ ],
+ ".?AVNpPrismaticJoint@@+0": [
+  28
+ ],
+ ".?AVNpPrismaticJoint@@+12": [
+  4
+ ],
+ ".?AVNpPulleyJoint@@+0": [
+  32
+ ],
+ ".?AVNpPulleyJoint@@+12": [
+  4
+ ],
+ ".?AVNpRemoteDebuggerEventListener@@+0": [
+  5
+ ],
+ ".?AVNpRevoluteJoint@@+0": [
+  40
+ ],
+ ".?AVNpRevoluteJoint@@+12": [
+  4
+ ],
+ ".?AVNpScene@@+0": [
+  170
+ ],
+ ".?AVNpScene@@+12": [
+  1
+ ],
+ ".?AVNpScene@@+24": [
+  3
+ ],
+ ".?AVNpScene@@+28": [
+  2
+ ],
+ ".?AVNpShape@@+0": [
+  4
+ ],
+ ".?AVNpSoftBody@@+0": [
+  83
+ ],
+ ".?AVNpSoftBody@@+8": [
+  1
+ ],
+ ".?AVNpSoftBodyMesh@@+0": [
+  3
+ ],
+ ".?AVNpSoftBodyMesh@@+4": [
+  1
+ ],
+ ".?AVNpSphereForceFieldShape@@+0": [
+  6
+ ],
+ ".?AVNpSphereForceFieldShape@@+72": [
+  11
+ ],
+ ".?AVNpSphereShape@@+0": [
+  44
+ ],
+ ".?AVNpSphereShape@@+12": [
+  4
+ ],
+ ".?AVNpSphericalJoint@@+0": [
+  32
+ ],
+ ".?AVNpSphericalJoint@@+12": [
+  4
+ ],
+ ".?AVNpSpringAndDamperEffector@@+0": [
+  4
+ ],
+ ".?AVNpSpringAndDamperEffector@@+12": [
+  11
+ ],
+ ".?AVNpTriangleMesh@@+0": [
+  18
+ ],
+ ".?AVNpTriangleMeshShape@@+0": [
+  49
+ ],
+ ".?AVNpTriangleMeshShape@@+12": [
+  4
+ ],
+ ".?AVNpUtilLib@@+0": [
+  76
+ ],
+ ".?AVNpWheelShape@@+0": [
+  66
+ ],
+ ".?AVNpWheelShape@@+12": [
+  4
+ ],
+ ".?AVNvBody@@+0": [
+  51
+ ],
+ ".?AVNvConvexMesh@@+0": [
+  12
+ ],
+ ".?AVNvFluid@@+0": [
+  91
+ ],
+ ".?AVNvHeightField@@+0": [
+  16
+ ],
+ ".?AVNvJoint@@+0": [
+  98
+ ],
+ ".?AVNvPhysicsSDK@@+0": [
+  13
+ ],
+ ".?AVNvRawTriangleMesh@@+0": [
+  3
+ ],
+ ".?AVNvScene@@+0": [
+  149
+ ],
+ ".?AVNvShape@@+0": [
+  123
+ ],
+ ".?AVNvSpringAndDamperEffector@@+0": [
+  12
+ ],
+ ".?AVNvTriangleMesh@@+0": [
+  20
+ ],
+ ".?AVNvUserRawBoundsReport@@+0": [
+  4
+ ],
+ ".?AVNvVRDReporter@@+0": [
+  3
+ ],
+ ".?AVNxActor@@+0": [
+  103
+ ],
+ ".?AVNxBoxForceFieldShape@@+0": [
+  11
+ ],
+ ".?AVNxBoxForceFieldShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxBoxShape@@+0": [
+  43
+ ],
+ ".?AVNxBoxShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxCCDSkeleton@@+0": [
+  5
+ ],
+ ".?AVNxCapsuleForceFieldShape@@+0": [
+  14
+ ],
+ ".?AVNxCapsuleForceFieldShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxCapsuleShape@@+0": [
+  46
+ ],
+ ".?AVNxCapsuleShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxCloth@@+0": [
+  92
+ ],
+ ".?AVNxClothMesh@@+0": [
+  3
+ ],
+ ".?AVNxCompartment@@+0": [
+  14
+ ],
+ ".?AVNxConvexForceFieldShape@@+0": [
+  9
+ ],
+ ".?AVNxConvexMesh@@+0": [
+  11
+ ],
+ ".?AVNxConvexShape@@+0": [
+  42
+ ],
+ ".?AVNxConvexShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxCylindricalJoint@@+0": [
+  27
+ ],
+ ".?AVNxCylindricalJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxD6Joint@@+0": [
+  31
+ ],
+ ".?AVNxD6JointDesc@@+0": [
+  3
+ ],
+ ".?AVNxDistanceJoint@@+0": [
+  27
+ ],
+ ".?AVNxDistanceJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxEffector@@+0": [
+  5
+ ],
+ ".?AVNxEffectorDesc@@+0": [
+  3
+ ],
+ ".?AVNxFixedJoint@@+0": [
+  27
+ ],
+ ".?AVNxFixedJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxFluid@@+0": [
+  81
+ ],
+ ".?AVNxFluidEmitter@@+0": [
+  41
+ ],
+ ".?AVNxForceField@@+0": [
+  36
+ ],
+ ".?AVNxForceFieldKernel@@+0": [
+  7
+ ],
+ ".?AVNxForceFieldLinearKernel@@+0": [
+  29
+ ],
+ ".?AVNxForceFieldShape@@+0": [
+  8
+ ],
+ ".?AVNxForceFieldShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxForceFieldShapeGroup@@+0": [
+  12
+ ],
+ ".?AVNxFoundationSDK@@+0": [
+  10
+ ],
+ ".?AVNxHeightField@@+0": [
+  15
+ ],
+ ".?AVNxHeightFieldShape@@+0": [
+  55
+ ],
+ ".?AVNxHeightFieldShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxInterface@@+0": [
+  3
+ ],
+ ".?AVNxInterfaceStats@@+0": [
+  4
+ ],
+ ".?AVNxJoint@@+0": [
+  25
+ ],
+ ".?AVNxJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxMaterial@@+0": [
+  23
+ ],
+ ".?AVNxPhysicsSDK@@+0": [
+  34
+ ],
+ ".?AVNxPlaneShape@@+0": [
+  42
+ ],
+ ".?AVNxPlaneShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxPointInPlaneJoint@@+0": [
+  27
+ ],
+ ".?AVNxPointInPlaneJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxPointOnLineJoint@@+0": [
+  27
+ ],
+ ".?AVNxPointOnLineJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxPrismaticJoint@@+0": [
+  27
+ ],
+ ".?AVNxPrismaticJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxProfileData@@+0": [
+  2
+ ],
+ ".?AVNxPulleyJoint@@+0": [
+  31
+ ],
+ ".?AVNxPulleyJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxRemoteDebugger@@+0": [
+  26
+ ],
+ ".?AVNxRemoteDebuggerEventListener@@+0": [
+  5
+ ],
+ ".?AVNxRevoluteJoint@@+0": [
+  39
+ ],
+ ".?AVNxRevoluteJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxScene@@+0": [
+  157
+ ],
+ ".?AVNxSceneQuery@@+0": [
+  19
+ ],
+ ".?AVNxShape@@+0": [
+  39
+ ],
+ ".?AVNxShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxSoftBody@@+0": [
+  83
+ ],
+ ".?AVNxSoftBodyMesh@@+0": [
+  3
+ ],
+ ".?AVNxSphereForceFieldShape@@+0": [
+  11
+ ],
+ ".?AVNxSphereForceFieldShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxSphereShape@@+0": [
+  43
+ ],
+ ".?AVNxSphereShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxSphericalJoint@@+0": [
+  31
+ ],
+ ".?AVNxSphericalJointDesc@@+0": [
+  3
+ ],
+ ".?AVNxSpringAndDamperEffector@@+0": [
+  11
+ ],
+ ".?AVNxSpringAndDamperEffectorDesc@@+0": [
+  3
+ ],
+ ".?AVNxSweepCache@@+0": [
+  2
+ ],
+ ".?AVNxTask@@+0": [
+  2
+ ],
+ ".?AVNxThread@@+0": [
+  3
+ ],
+ ".?AVNxTireFunctionDesc@@+0": [
+  3
+ ],
+ ".?AVNxTriangleMesh@@+0": [
+  18
+ ],
+ ".?AVNxTriangleMeshShape@@+0": [
+  48
+ ],
+ ".?AVNxTriangleMeshShapeDesc@@+0": [
+  3
+ ],
+ ".?AVNxUserAllocator@@+0": [
+  8
+ ],
+ ".?AVNxUserAllocatorDefault@@+0": [
+  8
+ ],
+ ".?AVNxUserContactReport@@+0": [
+  2
+ ],
+ ".?AVNxUserRaycastReport@@+0": [
+  2
+ ],
+ ".?AVNxUserScheduler@@+0": [
+  4
+ ],
+ ".?AVNxUserTriggerReport@@+0": [
+  2
+ ],
+ ".?AVNxUtilLib@@+0": [
+  76
+ ],
+ ".?AVNxWheelShape@@+0": [
+  65
+ ],
+ ".?AVNxWheelShapeDesc@@+0": [
+  4
+ ],
+ ".?AVOBBCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVObjectCache@@+0": [
+  2
+ ],
+ ".?AVObservable@NxFoundation@@+0": [
+  1
+ ],
+ ".?AVOctreePruner@@+0": [
+  13
+ ],
+ ".?AVOutputStream@meq@@+0": [
+  4
+ ],
+ ".?AVPageBoundsElement@@+0": [
+  4
+ ],
+ ".?AVPageBoundsInteraction@@+0": [
+  7
+ ],
+ ".?AVPageBoundsInteraction@@+8": [
+  7
+ ],
+ ".?AVPenetrationMap@@+0": [
+  1
+ ],
+ ".?AVPhysicsSDK@@+0": [
+  14
+ ],
+ ".?AVPhysicsThread@@+0": [
+  3
+ ],
+ ".?AVPlaneShape@@+0": [
+  141
+ ],
+ ".?AVPlaneShape@@+4": [
+  3
+ ],
+ ".?AVPlanesCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVPointDistanceQuery@Opcode@@+0": [
+  1
+ ],
+ ".?AVPointInPlaneJoint@@+0": [
+  122
+ ],
+ ".?AVPointOnLineJoint@@+0": [
+  122
+ ],
+ ".?AVPrismaticJoint@@+0": [
+  122
+ ],
+ ".?AVPrunable@Opcode@@+0": [
+  6
+ ],
+ ".?AVPruner@Opcode@@+0": [
+  13
+ ],
+ ".?AVPulleyJoint@@+0": [
+  123
+ ],
+ ".?AVPxActor@@+0": [
+  14
+ ],
+ ".?AVPxElement@@+0": [
+  3
+ ],
+ ".?AVPxElementInteraction@@+0": [
+  7
+ ],
+ ".?AVPxInteraction@@+0": [
+  7
+ ],
+ ".?AVPxVolume@@+0": [
+  1
+ ],
+ ".?AVPxVolumeOverlap@@+0": [
+  2
+ ],
+ ".?AVPxcConvexBox@@+0": [
+  11
+ ],
+ ".?AVPxcConvexMeshHL@@+0": [
+  11
+ ],
+ ".?AVPxcHeapManager@@+0": [
+  6
+ ],
+ ".?AVPxcHeapManagerInterface@@+0": [
+  6
+ ],
+ ".?AVPxcHeightField@@+0": [
+  1
+ ],
+ ".?AVPxcThread@@+0": [
+  3
+ ],
+ ".?AVPxfBodyAtom@@+0": [
+  26
+ ],
+ ".?AVPxfBodyShape@@+0": [
+  10
+ ],
+ ".?AVPxfBroadPhase@@+0": [
+  27
+ ],
+ ".?AVPxfContactConstraint@@+0": [
+  36
+ ],
+ ".?AVPxfContext@@+0": [
+  42
+ ],
+ ".?AVPxfCustomConstraint@@+0": [
+  31
+ ],
+ ".?AVPxfD6Joint@@+0": [
+  49
+ ],
+ ".?AVPxfFwPipelineAllocator@@+0": [
+  4
+ ],
+ ".?AVPxfHostCm@@+0": [
+  35
+ ],
+ ".?AVPxfHostCmCallback@@+0": [
+  1
+ ],
+ ".?AVPxfHostContactProxy@@+0": [
+  36
+ ],
+ ".?AVPxfMeshManager@@+0": [
+  35
+ ],
+ ".?AVPxfPpuContactProxy@@+0": [
+  36
+ ],
+ ".?AVPxfRbFwPipeline@@+0": [
+  10
+ ],
+ ".?AVPxfRemoteCm@@+0": [
+  35
+ ],
+ ".?AVPxfShape@@+0": [
+  40
+ ],
+ ".?AVPxfTask@@+0": [
+  4
+ ],
+ ".?AVPxfVolume@@+0": [
+  13
+ ],
+ ".?AVPxgCudaDeformablePipelineStages@@+0": [
+  6
+ ],
+ ".?AVPxgCudaFluidPipelineStages@@+0": [
+  7
+ ],
+ ".?AVPxgDeformableData@@+0": [
+  1
+ ],
+ ".?AVPxgDeformableGpuBatcher@@+0": [
+  1
+ ],
+ ".?AVPxgDeformablePipelineStages@@+0": [
+  6
+ ],
+ ".?AVPxgDeformableUnitTestPipelineStages@@+0": [
+  6
+ ],
+ ".?AVPxgFluidBatcher@@+0": [
+  1
+ ],
+ ".?AVPxgFluidData@@+0": [
+  1
+ ],
+ ".?AVPxgFluidParticleCollisionDataSoA@@+0": [
+  1
+ ],
+ ".?AVPxgFluidPipelineStages@@+0": [
+  7
+ ],
+ ".?AVPxgSharedHeapManager@@+0": [
+  6
+ ],
+ ".?AVPxnBodyAtom@@+0": [
+  26
+ ],
+ ".?AVPxnBodyShape@@+0": [
+  10
+ ],
+ ".?AVPxnContactConstraint@@+0": [
+  36
+ ],
+ ".?AVPxnContactManager@@+0": [
+  34
+ ],
+ ".?AVPxnContext@@+0": [
+  42
+ ],
+ ".?AVPxnCustomConstraint@@+0": [
+  31
+ ],
+ ".?AVPxnD6Joint@@+0": [
+  49
+ ],
+ ".?AVPxnFluid@@+0": [
+  62
+ ],
+ ".?AVPxnFluidBodyContactManager@@+0": [
+  11
+ ],
+ ".?AVPxnFluidShape@@+0": [
+  10
+ ],
+ ".?AVPxnShape@@+0": [
+  40
+ ],
+ ".?AVPxnVolume@@+0": [
+  13
+ ],
+ ".?AVPxsBodyAtom@@+0": [
+  26
+ ],
+ ".?AVPxsBodyShape@@+0": [
+  10
+ ],
+ ".?AVPxsBroadPhaseContext@@+0": [
+  27
+ ],
+ ".?AVPxsBroadPhaseContextMulti@@+0": [
+  27
+ ],
+ ".?AVPxsBroadPhasePairMap@@+0": [
+  3
+ ],
+ ".?AVPxsBroadPhasePairMapCell@@+0": [
+  3
+ ],
+ ".?AVPxsBroadPhasePairMapMulti@@+0": [
+  3
+ ],
+ ".?AVPxsConstraintBase@@+0": [
+  2
+ ],
+ ".?AVPxsContactCallback@@+0": [
+  10
+ ],
+ ".?AVPxsContactCallbackPatch@@+0": [
+  10
+ ],
+ ".?AVPxsContactCallbackQuat@@+0": [
+  10
+ ],
+ ".?AVPxsContactConstraint@@+0": [
+  2
+ ],
+ ".?AVPxsContactConstraint@@+20": [
+  36
+ ],
+ ".?AVPxsContactManager@@+0": [
+  34
+ ],
+ ".?AVPxsContext@@+0": [
+  42
+ ],
+ ".?AVPxsCustomConstraint@@+0": [
+  2
+ ],
+ ".?AVPxsCustomConstraint@@+20": [
+  31
+ ],
+ ".?AVPxsD6Joint@@+0": [
+  2
+ ],
+ ".?AVPxsD6Joint@@+20": [
+  49
+ ],
+ ".?AVPxsFluid@@+0": [
+  62
+ ],
+ ".?AVPxsFluidBodyContactManager@@+0": [
+  11
+ ],
+ ".?AVPxsFluidShape@@+0": [
+  10
+ ],
+ ".?AVPxsShape@@+0": [
+  40
+ ],
+ ".?AVPxsSolverCoreGeneral@@+0": [
+  2
+ ],
+ ".?AVPxsSolverImpulseAccumulator@@+0": [
+  3
+ ],
+ ".?AVPxsSolverImpulseAccumulatorQuat@@+0": [
+  3
+ ],
+ ".?AVPxsTask@@+0": [
+  5
+ ],
+ ".?AVPxsTaskList@@+0": [
+  1
+ ],
+ ".?AVPxsVolume@@+0": [
+  14
+ ],
+ ".?AVPxsVolumeMulti@@+0": [
+  14
+ ],
+ ".?AVQuadtreePruner@@+0": [
+  13
+ ],
+ ".?AVRawBoundsElementOverlap@@+0": [
+  2
+ ],
+ ".?AVRawBoundsOverlap@@+0": [
+  2
+ ],
+ ".?AVRawBoundsVolume@@+0": [
+  1
+ ],
+ ".?AVRayCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVRbActor@@+0": [
+  14
+ ],
+ ".?AVRbActor@@+116": [
+  123
+ ],
+ ".?AVReadWriteMutex@@+0": [
+  1
+ ],
+ ".?AVRemoteDebugger@@+0": [
+  26
+ ],
+ ".?AVRevoluteJoint@@+0": [
+  120
+ ],
+ ".?AVRigidSceneZoner@@+0": [
+  13
+ ],
+ ".?AVScene@@+0": [
+  150
+ ],
+ ".?AVSceneQuery@@+0": [
+  19
+ ],
+ ".?AVShape@@+0": [
+  138
+ ],
+ ".?AVShape@@+4": [
+  3
+ ],
+ ".?AVShapeInstancePairHL@@+0": [
+  5
+ ],
+ ".?AVShapeInstancePairHL@@+8": [
+  7
+ ],
+ ".?AVShapeInstancePairLL@@+0": [
+  7
+ ],
+ ".?AVShapeInstancePairLL@@+8": [
+  7
+ ],
+ ".?AVSocketWin32@meq@@+0": [
+  7
+ ],
+ ".?AVSocketWin32@meq@@+36": [
+  4
+ ],
+ ".?AVSourceCCDSkeleton@@+0": [
+  7
+ ],
+ ".?AVSphereCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVSphereShape@@+0": [
+  141
+ ],
+ ".?AVSphereShape@@+4": [
+  3
+ ],
+ ".?AVSphericalJoint@@+0": [
+  120
+ ],
+ ".?AVSpringAndDamperEffector@@+0": [
+  15
+ ],
+ ".?AVSpringAndDamperEffector@@+4": [
+  1
+ ],
+ ".?AVStaticActor@@+0": [
+  14
+ ],
+ ".?AVStaticActor@@+116": [
+  123
+ ],
+ ".?AVStaticPruner@Opcode@@+0": [
+  14
+ ],
+ ".?AVStream@IceCore@@+0": [
+  13
+ ],
+ ".?AVStreamLoad@@+0": [
+  13
+ ],
+ ".?AVSupportVertexMap@@+0": [
+  2
+ ],
+ ".?AVTriangleMesh@@+0": [
+  24
+ ],
+ ".?AVTriangleMeshShape@@+0": [
+  141
+ ],
+ ".?AVTriangleMeshShape@@+4": [
+  3
+ ],
+ ".?AVTriggerCallback@SceneManager@@+0": [
+  2
+ ],
+ ".?AVTriggerInteraction@@+0": [
+  3
+ ],
+ ".?AVTriggerInteraction@@+8": [
+  7
+ ],
+ ".?AVVolumeCollider@Opcode@@+0": [
+  3
+ ],
+ ".?AVWheelShape@@+0": [
+  143
+ ],
+ ".?AVWheelShape@@+4": [
+  3
+ ],
+ ".?AVWorkThread@PxgBatcher@@+0": [
+  3
+ ],
+ ".?AVbad_alloc@std@@+0": [
+  2
+ ],
+ ".?AVbad_exception@std@@+0": [
+  2
+ ],
+ ".?AVexception@std@@+0": [
+  2
+ ],
+ ".?AVlength_error@std@@+0": [
+  2
+ ],
+ ".?AVlogic_error@std@@+0": [
+  2
+ ],
+ ".?AVout_of_range@std@@+0": [
+  2
+ ],
+ ".?AVtype_info@@+0": [
+  1
+ ]
+}

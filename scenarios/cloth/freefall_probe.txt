@@ -1,0 +1,6 @@
+# Probe: unpinned 3x3 cloth in free fall, no collision. Every vertex should follow v_n = n g dt,
+# y_n = y0 + g dt^2 n(n+1)/2 (velocity first, then position).
+dt 0.0166667
+steps 10
+gravity 0 -9.81 0
+grid 3 3 0.1  0 1 0  xz

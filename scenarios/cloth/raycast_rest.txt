@@ -1,0 +1,25 @@
+# raycast probes on the drop_plane cloth: a few steps into the fall (3), and at rest (119, asleep by then?).
+# Each probe: raycast <step> ox oy oz dx dy dz (cloth->raycast after that step's fetchResults).
+dt 0.0166667
+steps 120
+gravity 0 -9.81 0
+grid 11 11 0.1  -0.5 0.5 -0.5  xz
+cloth.thickness 0.04
+cloth.friction 0.5
+plane 0 1 0 0
+raycast 119 0 2 0 0 -1 0
+raycast 119 0 -2 0 0 1 0
+raycast 119 0 2 0 0 1 0
+raycast 119 2 2 0 0 -1 0
+raycast 119 0.45 2 0.45 0 -1 0
+raycast 119 0.3 2 0.1 0 -1 0
+raycast 119 0 2 0 0 -3 0
+raycast 119 0 2 0 0 0 0
+raycast 119 0 2 0 1 0 0
+raycast 119 -0.5 2 -0.5 0 -1 0
+raycast 119 0.05 2 0.05 0 -1 0
+raycast 119 0 2 0 0.3 -1 0.2
+raycast 119 0 0 0 0 1 0
+raycast 3 0 2 0 0 -1 0
+raycast 3 0.2 2 -0.1 0 -1 0
+raycast 3 0 0.3 0 0 -1 0
