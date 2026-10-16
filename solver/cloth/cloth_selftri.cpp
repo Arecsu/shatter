@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+#include <mutex>
 #include <vector>
 
 #include "../fastfloor.h"
@@ -55,6 +56,42 @@ inline void bary(const V3& q, const V3& a, const V3& b, const V3& c, float out[3
   out[1] = (d11 * d20 - d01 * d21) * inv;
   out[2] = (d00 * d21 - d01 * d20) * inv;
   out[0] = 1.f - out[1] - out[2];
+}
+// Box overlap of four SoA boxes (B: lo x/y/z, then hi x/y/z, four lanes each) with lo..hi, as a lane mask. A NaN box
+// passes, as in the scalar test it stands in front of.
+inline int overlap4(const float* B, const V3& lo, const V3& hi) {
+#if defined(__SSE2__)
+  const __m128 ok = _mm_and_ps(
+      _mm_and_ps(_mm_and_ps(_mm_cmpnlt_ps(_mm_loadu_ps(B + 12), _mm_set1_ps(lo.x)),
+                            _mm_cmpnlt_ps(_mm_loadu_ps(B + 16), _mm_set1_ps(lo.y))),
+                 _mm_and_ps(_mm_cmpnlt_ps(_mm_loadu_ps(B + 20), _mm_set1_ps(lo.z)),
+                            _mm_cmpngt_ps(_mm_loadu_ps(B + 0), _mm_set1_ps(hi.x)))),
+      _mm_and_ps(_mm_cmpngt_ps(_mm_loadu_ps(B + 4), _mm_set1_ps(hi.y)), _mm_cmpngt_ps(_mm_loadu_ps(B + 8), _mm_set1_ps(hi.z))));
+  return _mm_movemask_ps(ok);
+#else
+  int m = 0;
+  for (int j = 0; j < 4; ++j)
+    if (!(B[12 + j] < lo.x || B[16 + j] < lo.y || B[20 + j] < lo.z || B[0 + j] > hi.x || B[4 + j] > hi.y || B[8 + j] > hi.z))
+      m |= 1 << j;
+  return m;
+#endif
+}
+// Boxes of the triangles in `ids` (kNoTri: padding, a box nothing overlaps) as SoA groups of four.
+template <class Box>
+void packBoxes(const std::vector<Box>& tb, const uint32_t* ids, size_t n, std::vector<float>& out) {
+  const size_t ng = (n + 3) / 4;
+  out.resize(ng * 24);
+  for (size_t g = 0; g < ng; ++g) {
+    float* B = &out[g * 24];
+    for (int j = 0; j < 4; ++j) {
+      const size_t k = g * 4 + j;
+      const uint32_t t = k < n ? ids[k] : 0xffffffffu;
+      const bool pad = t == 0xffffffffu;
+      const V3 lo = pad ? V3(1e30f, 1e30f, 1e30f) : tb[t].lo, hi = pad ? V3(-1e30f, -1e30f, -1e30f) : tb[t].hi;
+      B[0 * 4 + j] = lo.x, B[1 * 4 + j] = lo.y, B[2 * 4 + j] = lo.z;
+      B[3 * 4 + j] = hi.x, B[4 * 4 + j] = hi.y, B[5 * 4 + j] = hi.z;
+    }
+  }
 }
 inline bool overTri(const float b[3]) { return b[0] >= -kBaryTol && b[1] >= -kBaryTol && b[2] >= -kBaryTol; }
 // A vertex-triangle pair moves each particle by its share (w for the vertex, w b for a corner) over W; this is the
@@ -176,16 +213,23 @@ void Cloth::selfContactFind(const V3& gravity, float dt) {
         for (int x = c0[0]; x <= c1[0]; ++x) items[fill[cellHash(x, y, z) & mask]++] = (uint32_t)t;
   }
   std::vector<float>& ib = scItemBox_;
-  ib.resize(items.size() * 6);
-  for (size_t g = 0; g < items.size(); g += 4) {
-    float* B = &ib[g * 6];
-    for (int j = 0; j < 4; ++j) {
-      const uint32_t t = items[g + j];
-      const V3 lo = t == kNoTri ? V3(1e30f, 1e30f, 1e30f) : tb[t].lo, hi = t == kNoTri ? V3(-1e30f, -1e30f, -1e30f) : tb[t].hi;
-      B[0 * 4 + j] = lo.x, B[1 * 4 + j] = lo.y, B[2 * 4 + j] = lo.z;
-      B[3 * 4 + j] = hi.x, B[4 * 4 + j] = hi.y, B[5 * 4 + j] = hi.z;
-    }
-  }
+  packBoxes(tb, items.data(), items.size(), ib);
+  // The big triangles (every vertex's candidates) and all triangles (a vertex whose path spans too many cells) as SoA
+  // boxes too, so those vertices reject four at a time like the grid path: a heavily torn cloth has dozens of big
+  // triangles and fast pieces, and testing them one by one was most of its search.
+  packBoxes(tb, big.data(), big.size(), scBigBox_);
+  const float* bigBox = scBigBox_.data();
+  const size_t nBigG = (big.size() + 3) / 4, nAllG = (nt + 3) / 4;
+  std::once_flag allPacked;  // all triangles' boxes: only when a vertex needs them (most steps none does)
+  auto allBoxes = [&]() -> const float* {
+    std::call_once(allPacked, [&] {
+      std::vector<uint32_t>& all = scCand_;  // scratch: 0..nt-1
+      all.resize(nt);
+      for (size_t t = 0; t < nt; ++t) all[t] = (uint32_t)t;
+      packBoxes(tb, all.data(), nt, scAllBox_);
+    });
+    return scAllBox_.data();
+  };
   // Mesh neighbours of every vertex (rebuilt when tearing changes the triangles): a vertex never collides with a
   // triangle that touches it or one of its neighbours, so the cloth's own bending is never fought, while the pieces of a
   // torn cloth (no longer neighbours) collide everywhere, their torn edges included.
@@ -249,7 +293,9 @@ void Cloth::selfContactFind(const V3& gravity, float dt) {
   };
   // The vertices in chunks (the shim's worker pool when it gave one, see setParallelFor), each with its own scratch and
   // pair list; the lists are joined in chunk order, so the pairs and their order are the same for any thread count.
-  const size_t K = 256, nch = (nv + K - 1) / K;
+  // 64 vertices per chunk: tear copies are appended, so the torn and fast vertices (the expensive ones) sit together at
+  // the end of the array, and 256-vertex chunks left one thread with most of the work.
+  const size_t K = 64, nch = (nv + K - 1) / K;
   if (scChunks_.size() < nch) scChunks_.resize(nch);
   auto runChunk = [&](size_t ci) {
     ScChunk& C = scChunks_[ci];
@@ -283,7 +329,10 @@ void Cloth::selfContactFind(const V3& gravity, float dt) {
       };
       int c0[3], c1[3];
       if (cellRange(vlo, vhi, c0, c1) > 64) {  // a vertex flying across many cells: every triangle is a candidate
-        for (uint32_t t = 0; t < (uint32_t)nt; ++t) consider(t);
+        const float* allBox = allBoxes();
+        for (size_t g = 0; g < nAllG; ++g)
+          for (int m = overlap4(allBox + g * 24, vlo, vhi), j = 0; m; ++j, m >>= 1)
+            if (m & 1) consider((uint32_t)(g * 4 + j));
       } else {
         for (int z = c0[2]; z <= c1[2]; ++z)
           for (int y = c0[1]; y <= c1[1]; ++y)
@@ -292,29 +341,13 @@ void Cloth::selfContactFind(const V3& gravity, float dt) {
               // box overlap 4 entries at a time (the test consider() repeats; NaN boxes pass, as there), then the rest
               // of consider() for the entries that overlap
               for (uint32_t e = start[k]; e < start[k + 1]; e += 4) {
-                const float* B = &ib[(size_t)e * 6];
-                int m;
-  #if defined(__SSE2__)
-                const __m128 ok = _mm_and_ps(
-                    _mm_and_ps(_mm_and_ps(_mm_cmpnlt_ps(_mm_loadu_ps(B + 12), _mm_set1_ps(vlo.x)),
-                                          _mm_cmpnlt_ps(_mm_loadu_ps(B + 16), _mm_set1_ps(vlo.y))),
-                               _mm_and_ps(_mm_cmpnlt_ps(_mm_loadu_ps(B + 20), _mm_set1_ps(vlo.z)),
-                                          _mm_cmpngt_ps(_mm_loadu_ps(B + 0), _mm_set1_ps(vhi.x)))),
-                    _mm_and_ps(_mm_cmpngt_ps(_mm_loadu_ps(B + 4), _mm_set1_ps(vhi.y)),
-                               _mm_cmpngt_ps(_mm_loadu_ps(B + 8), _mm_set1_ps(vhi.z))));
-                m = _mm_movemask_ps(ok);
-  #else
-                m = 0;
-                for (int j = 0; j < 4; ++j)
-                  if (!(B[12 + j] < vlo.x || B[16 + j] < vlo.y || B[20 + j] < vlo.z || B[0 + j] > vhi.x ||
-                        B[4 + j] > vhi.y || B[8 + j] > vhi.z))
-                    m |= 1 << j;
-  #endif
-                for (int j = 0; m; ++j, m >>= 1)
+                for (int m = overlap4(&ib[(size_t)e * 6], vlo, vhi), j = 0; m; ++j, m >>= 1)
                   if ((m & 1) && items[e + j] != kNoTri) consider(items[e + j]);
               }
             }
-        for (uint32_t t : big) consider(t);
+        for (size_t g = 0; g < nBigG; ++g)
+          for (int m = overlap4(bigBox + g * 24, vlo, vhi), j = 0; m; ++j, m >>= 1)
+            if ((m & 1) && g * 4 + j < big.size()) consider(big[g * 4 + j]);
       }
       // Triangle order, so the pairs (and the order they are projected in) do not depend on how the grid was walked.
       std::sort(cand.begin(), cand.end());

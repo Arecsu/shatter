@@ -439,6 +439,7 @@ class Cloth {
   std::vector<TriPlanes> scPlanes_;
   std::vector<uint32_t> scStart_, scItems_, scFill_, scBig_, scStamp_, scCand_;
   std::vector<float> scItemBox_;  // four grid items: lo x/y/z, then hi x/y/z; four lanes each (SoA, 24 floats)
+  std::vector<float> scBigBox_, scAllBox_;  // the same for the big triangles and for every triangle (in index order)
   struct ScChunk { std::vector<uint32_t> stamp, cand; std::vector<SelfContact> out; };  // selfContactFind per chunk
   std::vector<ScChunk> scChunks_;
   ParallelFor parallelFor_ = nullptr;
