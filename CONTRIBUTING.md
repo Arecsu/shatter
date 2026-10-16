@@ -4,7 +4,7 @@
 
 Keep the original game install and its Wine prefix read-only. Run game experiments only from an isolated copy, and ask before launching the game in an assisted session. Local paths belong in the ignored `.local.env` or `PERSONAL.md`, not in scripts or documentation.
 
-Do not contribute NVIDIA/EA binaries, SDK headers, extracted game assets, cooked streams, recordings, or decompiled source. `vendor-dlls/`, `third_party/`, `.toolchain/`, `captures/` and reverse-engineering outputs are ignored. Describe observed behavior in original words and distinguish verified observations [V] from assumptions [A]. Ignore rules are not a substitute for checking what Git actually tracks.
+Do not contribute NVIDIA/EA binaries, SDK headers, extracted game assets, cooked streams, recordings, or decompiled source. The exception is shrunk cloth test cases in `tests/cloth_cases/` (see [Cloth test cases](#cloth-test-cases)). `vendor-dlls/`, `third_party/`, `.toolchain/`, `captures/` and reverse-engineering outputs are ignored. Describe observed behavior in original words and distinguish verified observations [V] from assumptions [A]. Ignore rules are not a substitute for checking what Git actually tracks.
 
 ## Build the DLL and installer
 
@@ -30,6 +30,20 @@ tools/run_cloth_ours.sh scenarios/cloth/drop_plane.txt
 ```
 
 It writes `captures/cloth/drop_plane/ours-1.bin`. This is a smoke test, not an oracle comparison. Native tools use clang++; the shipped DLL and oracle interfaces must use clang-cl, not MinGW GCC.
+
+## Cloth test cases
+
+The case files are stored with [Git LFS](https://git-lfs.com/). Install it before cloning (`git lfs install`), or fetch them in an existing clone with `git lfs pull`; without it they are small pointer files and the tool says so.
+
+`tests/cloth_cases/` holds short windows of cloth recorded in the game (a torn banner under shotgun fire, a pinned sheet through shim rebuilds, ...), each a zstd-compressed `.pxcr` with the solver's whole state before its first step and the solver's own position hash after every step. Replay them all (needs Wine for the Windows replay build, and `zstd`):
+
+```sh
+python3 tools/cloth_case.py run
+```
+
+`exact` means every step matched bit for bit. `changed` means the solver's result differs: expected after a behaviour change, then check the metrics against the limits in the case's `.json`, look at it, and `rebase` the case. A rebase rewrites only the `.json` (the expected hashes live there); the case files change only on `recut`, which adds a new copy of each file to LFS storage, so recut rarely and in batches. A broken limit (a spark faster than the case allows, a fall-through, a non-finite position) is a regression.
+
+New cases are cut from your own recordings (`PXSHIM_CLOTH_REC=1` in game) with `tools/cloth_case.py cut`, which shrinks them to what the cloth touches. A case is only written to `tests/cloth_cases/` when it holds no level triangle mesh and no machine path; otherwise it stays in the ignored `captures/cases/`. Keep the recordings themselves private: `recut` regenerates cases from them after a solver change. See the tool's help for details.
 
 ## Oracle comparisons
 

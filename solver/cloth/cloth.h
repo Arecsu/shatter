@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <vector>
 #include <map>
+#include <string>
 
 namespace pxc {
 
@@ -269,7 +270,15 @@ class Cloth {
     n = c.n, dist = c.dist, shape = c.shape;
   }
   int splits() const { return splits_; }  // total vertex copies made by tearing
+  const std::vector<V3>& restPositions() const { return rest_; }
   int origin(size_t i) const { return i < orig_.size() ? orig_[i] : (int)i; }  // rest vertex a particle came from (copies: the torn one)
+  // Whole solver state (cloth_state.cpp), for test cases cut out of game recordings (cloth_replay --cut): a cloth
+  // loaded from saveState() steps on exactly as the saved one would have. Mesh shapes are stored by the id meshId()
+  // gives; loadState() gets the meshes back from meshOf(). Fields are tagged by name: a state saved before a field
+  // existed loads with that field at its default (listed in *missing).
+  std::vector<uint8_t> saveState(uint32_t (*meshId)(const TriMesh*, void*), void* ctx) const;
+  static Cloth* loadState(const std::vector<uint8_t>& s, const TriMesh* (*meshOf)(uint32_t, void*), void* ctx,
+                          std::vector<std::string>* missing, std::string* error);
 
  private:
   struct Contact { V3 n; float dist; int shape = -1; };  // shape: moving shape of the contact (-1: static)  // one per particle and step (see generateContacts)
@@ -409,14 +418,14 @@ class Cloth {
   uint8_t utEvery_ = 2;  // steps between searches while tangled (grows while the tangle does not shrink)
   uint32_t utBest_ = 0, utLast_ = 0;  // fewest piercings of this tangle, piercings at the last search
   float utBestLen_ = 0.f;  // intersection curve length when utBest_ was set
-  struct PrevPair { uint64_t key; float side; uint16_t stuck, age; };  // key = vertex << 32 | triangle; age: steps unseen
+  struct PrevPair { alignas(8) uint64_t key; float side; uint16_t stuck, age; };  // key = vertex << 32 | triangle; age: steps unseen
   struct EdgeContact {  // edge pair (indices into scEdges_), side direction from e2 to e1, active, stuck as above
     uint32_t e1, e2;
     V3 n;
     bool active;
     uint16_t stuck;
   };
-  struct PrevEdge { uint64_t key; float unused; uint16_t stuck; V3 n; };
+  struct PrevEdge { alignas(8) uint64_t key; float unused; uint16_t stuck; V3 n; };
   std::vector<EdgeContact> se_;
   std::vector<PrevEdge> scPrevE_;
   std::vector<std::pair<uint32_t, uint32_t>> scEdges_, scPrevEdges_;  // unique mesh edges (a < b)
@@ -432,6 +441,8 @@ class Cloth {
   struct ScChunk { std::vector<uint32_t> stamp, cand; std::vector<SelfContact> out; };  // selfContactFind per chunk
   std::vector<ScChunk> scChunks_;
   ParallelFor parallelFor_ = nullptr;
+  Cloth() = default;  // loadState
+  template <class A> void visitState(A& a);  // every member that carries state from one step to the next (cloth_state.cpp)
   template <class F> void parallel(size_t n, F& f) {  // f(i) for i < n, on the pool when there is one
     if (parallelFor_ && n > 1) parallelFor_(n, [](void* c, size_t i) { (*static_cast<F*>(c))(i); }, &f);
     else for (size_t i = 0; i < n; ++i) f(i);

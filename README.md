@@ -155,7 +155,7 @@ Small scenes don't gain from more threads; they run inline. Results are bit-iden
 
 The DLL and installer are 32-bit (i686), MSVC ABI, built with clang-cl, lld-link and xwin. Building Shatter itself does not require NVIDIA SDK headers or vendor DLLs; oracle testing does.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for prerequisites, builds and tests, [docs/README.md](docs/README.md) for research notes, and [docs/release.md](docs/release.md) for publication checks.
+Cloth regression cases in `tests/cloth_cases/` are stored with Git LFS (`git lfs install` before cloning, or `git lfs pull`). See [CONTRIBUTING.md](CONTRIBUTING.md) for prerequisites, builds and tests, [docs/README.md](docs/README.md) for research notes, and [docs/release.md](docs/release.md) for publication checks.
 
 ## License
 

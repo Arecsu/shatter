@@ -1,0 +1,59 @@
+{
+ "source": "captures/game-run/20261013-013929/PhysXLoader_cloth006.pxcr",
+ "steps": [
+  1630,
+  1660
+ ],
+ "replay_args": [
+  "--dual",
+  "--keep"
+ ],
+ "note": "banner hit, 232 m/s at step 1644",
+ "metrics": {
+  "vmax": 232.311,
+  "stretch": 3.221,
+  "fall": 0,
+  "nonfinite": 0,
+  "ms": 4.09,
+  "steps": 31
+ },
+ "limits": {
+  "vmax": 290.4,
+  "stretch": 4.03,
+  "fall": 0,
+  "nonfinite": 0
+ },
+ "hashes": [
+  "c795af46",
+  "331caff9",
+  "69bd03ef",
+  "598c03e8",
+  "f3707704",
+  "741f719e",
+  "8c65956e",
+  "ef6f129b",
+  "f9d3f78d",
+  "85492ab0",
+  "95b394c2",
+  "449c1b7d",
+  "bd3f7ef2",
+  "c4e8c1b3",
+  "19e9def5",
+  "0b5e3655",
+  "bb23ca69",
+  "89eef014",
+  "94c0ec30",
+  "cf082770",
+  "ea04f46a",
+  "d1d6a68b",
+  "7b619f6d",
+  "504f1a60",
+  "3bf10555",
+  "000a09ec",
+  "2d39e0c3",
+  "dc02fcda",
+  "77900baa",
+  "84be30ff",
+  "d5106071"
+ ]
+}

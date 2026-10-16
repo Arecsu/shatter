@@ -1,0 +1,69 @@
+{
+ "source": "captures/game-run/20261013-011243/PhysXLoader_cloth005.pxcr",
+ "steps": [
+  3860,
+  3900
+ ],
+ "replay_args": [
+  "--dual",
+  "--keep"
+ ],
+ "note": "torn banner, shotgun: fastest piece of all recordings (484 m/s at step 3875) and an 18x stretched triangle",
+ "metrics": {
+  "vmax": 484.097,
+  "stretch": 18.051,
+  "fall": 0,
+  "nonfinite": 0,
+  "ms": 5.577,
+  "steps": 41
+ },
+ "limits": {
+  "vmax": 605.1,
+  "stretch": 22.56,
+  "fall": 0,
+  "nonfinite": 0
+ },
+ "hashes": [
+  "453d8e6a",
+  "b040aa92",
+  "5eaa19fa",
+  "e5ad8591",
+  "4f238d08",
+  "b244e03d",
+  "4e0c0ee7",
+  "196c2bba",
+  "b9fe5e37",
+  "a80b5b40",
+  "cbfd13a0",
+  "a18f4576",
+  "714717c8",
+  "06f427c6",
+  "8ca17e07",
+  "fbab03b7",
+  "e8c82a16",
+  "ae1267e8",
+  "8f51cb7b",
+  "9a57b528",
+  "a50273d1",
+  "b6292d50",
+  "9c772d7a",
+  "e365850c",
+  "2c5a913c",
+  "3f78682c",
+  "0a2cd652",
+  "786cb849",
+  "fccc0655",
+  "ccd5939b",
+  "5926a67c",
+  "836e0af8",
+  "369a84c2",
+  "7d33cb70",
+  "94c631e4",
+  "c8116fb1",
+  "ba44a0ce",
+  "e559d63a",
+  "7fb7422e",
+  "3afd4afd",
+  "2f936571"
+ ]
+}

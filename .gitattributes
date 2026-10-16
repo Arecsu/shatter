@@ -1,0 +1,2 @@
+# Cloth test cases (tools/cloth_case.py): Git LFS, so a plain clone stays small; "git lfs pull" fetches them.
+tests/cloth_cases/*.pxcr.zst filter=lfs diff=lfs merge=lfs -text

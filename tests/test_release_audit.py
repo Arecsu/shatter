@@ -1,5 +1,6 @@
 import importlib.util
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -134,6 +135,39 @@ class ArtifactTests(unittest.TestCase):
             audit.check_artifact(path, findings)
             self.assertIn((str(path), "possible CodeView/PDB debug record"), findings)
             self.assertIn((str(path), "personal home path"), findings)
+
+
+def cloth_case(mesh=False, note=b"cut of run/PhysXLoader_cloth000.pxcr"):
+    """A minimal plain .pxcr case: a note, optionally a level mesh, a state with one primitive shape."""
+    import struct
+    shape = struct.pack("<I3ff3fI", 2, 0, 0, 0, 0, 1, 1, 1, 0xFFFFFFFF)
+    field = b"\x07shapes_" + struct.pack("<II", 4 + len(shape), 36) + shape
+    state = b"PXCS" + struct.pack("<II", 1, 1) + field
+    out = b"PXCR" + struct.pack("<I", 1) + b"\x14" + struct.pack("<I", len(note)) + note
+    if mesh:
+        out += b"\x02" + struct.pack("<II", 0, 3) + struct.pack("<9f", *range(9))
+    return out + b"\x19" + struct.pack("<I", len(state)) + state
+
+
+@unittest.skipIf(shutil.which("zstd") is None, "needs zstd")
+class ClothCaseTests(unittest.TestCase):
+    def zst(self, raw):
+        return subprocess.run(["zstd", "-q", "-c"], input=raw, stdout=subprocess.PIPE, check=True).stdout
+
+    def test_published_case_location(self):
+        self.assertIsNone(audit.path_problem("tests/cloth_cases/banner.pxcr.zst"))
+        self.assertIsNone(audit.path_problem("tests/cloth_cases/banner.json"))
+        self.assertTrue(audit.path_problem("tests/cloth_cases/banner.pxcr"))
+        self.assertFalse(audit.is_case("tests/other/banner.pxcr.zst"))
+
+    def test_case_contents(self):
+        self.assertFalse(audit.case_problems(self.zst(cloth_case())))
+        self.assertIn("cloth case holds 1 level triangle mesh(es)", audit.case_problems(self.zst(cloth_case(mesh=True))))
+        self.assertIn("personal home path", audit.case_problems(self.zst(cloth_case(note=b"cut of " + home_path()))))
+        self.assertTrue(audit.case_problems(b"not zstd"))
+        pointer = b"version https://git-lfs.github.com/spec/v1\noid sha256:" + b"0" * 64 + b"\nsize 1\n"
+        self.assertTrue(audit.case_problems(pointer))
+        self.assertFalse(audit.case_problems(pointer, history=True))
 
 
 if __name__ == "__main__":

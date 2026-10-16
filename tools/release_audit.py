@@ -5,6 +5,7 @@ Reports categories and locations, never matched credential values. Does not modi
 """
 
 import argparse
+import importlib.util
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -31,6 +32,39 @@ BINARY_SUFFIXES = {".dll", ".exe", ".pdb", ".obj", ".lib", ".res", ".zip", ".bun
 LOCAL_SUFFIXES = {".pxcr", ".pxsd", ".log", ".trace", ".pem", ".key", ".upk", ".me1", ".umap", ".u"}
 PACKAGE_FILES = {"PhysXLoader.dll", "README.txt", "LICENSE.txt", "shatter.ini"}
 MAX_ARTIFACT_BYTES = 64 * 1024 * 1024
+# Shrunk cloth test cases (tools/cloth_case.py) are the one kind of game-derived data that is published: zstd-compressed
+# .pxcr with the cloth's rest mesh, the primitive shapes it touches and the calls of its steps; never a level triangle
+# mesh or a machine path. Checked decompressed.
+CASE_DIR = ("tests", "cloth_cases")
+
+
+def is_case(name):
+    return PurePosixPath(name).parts[:2] == CASE_DIR and name.endswith(".pxcr.zst")
+
+
+def case_problems(data, history=False):
+    # Git LFS keeps the case outside Git: the work tree must hold the fetched file, history holds only the pointer
+    # (checked as text; the object itself was checked when it was committed from the work tree).
+    if data.startswith(b"version https://git-lfs.github.com/spec/"):
+        return content_problems(data) if history else {"cloth case: Git LFS pointer, object not fetched (git lfs pull)"}
+    try:
+        raw = subprocess.run(["zstd", "-d", "-q", "-c"], input=data, stdout=subprocess.PIPE, check=True).stdout
+    except (OSError, subprocess.CalledProcessError):
+        return {"cloth case: not readable (zstd)"}
+    spec = importlib.util.spec_from_file_location("cloth_case", Path(__file__).resolve().parent / "cloth_case.py")
+    cc = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cc)
+    try:
+        why = cc.publish_problems(raw)
+    except (ValueError, struct_error()) as exc:
+        return {"cloth case: not a case (%s)" % exc}
+    findings = {"cloth case holds " + w for w in why}
+    return findings | content_problems(raw, binary=True)
+
+
+def struct_error():
+    import struct
+    return struct.error
 
 
 def git(root, *args):
@@ -93,7 +127,7 @@ def check_source(root, findings):
         else:
             findings.add((name, "missing file or submodule; review separately"))
             continue
-        for problem in content_problems(data):
+        for problem in case_problems(data) if is_case(name) else content_problems(data):
             findings.add((name, problem))
     return len(names - {b""})
 
@@ -124,7 +158,8 @@ def check_history(root, findings):
                 continue
             count += 1
             location = "history: " + (os.fsdecode(raw_name) if kind == b"blob" else "commit/tag metadata")
-            for problem in content_problems(data):
+            case = kind == b"blob" and is_case(os.fsdecode(raw_name))
+            for problem in case_problems(data, history=True) if case else content_problems(data):
                 findings.add((location, problem))
         proc.stdin.close()
         if proc.wait() != 0:

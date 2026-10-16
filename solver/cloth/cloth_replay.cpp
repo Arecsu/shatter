@@ -3,6 +3,13 @@
 // Checks the position hashes the shim recorded (the replay is only trusted while they match), prints the bullet hits
 // with what follows each of them, and the steps where triangles are stretched far past their rest size.
 // --frames: positions and triangles of steps a..b in the PXCL format of run_scenario (for the renderers).
+// --cut a b out.pxcr: a test case of steps a..b: the meshes, this build's whole solver state before step a (kRecState),
+// then the calls of those steps as they reached it (velocity writes as the values it ended with, its own position hash
+// after every step, shim rebuilds as Creates from the positions and velocities this build had). It replays on its own,
+// without --dual or --keep, exactly as the full replay ran those steps (the hash checks say so).
+// --metrics: one line per step for test-case checks (tools/cloth_case.py): "M step dt n vmax fast stretch nonfinite fall
+// ms": fastest particle (m/s), particles over 20 m/s, longest triangle edge over its rest length, particles with a
+// non-finite position, particles that went through a floor so far (with --fall), solver time of the step.
 // --fall: particles that went through a floor. Per particle, its last contact with a static shape whose normal points up
 // (against gravity); a particle that is later more than 0.5 m below that contact while within 0.25 m of it sideways
 // (straight down, not off a ledge) is reported once, as are particles the valid bounds removed below their last floor.
@@ -267,6 +274,10 @@ int main(int argc, char** argv) {
   // solver's state.
   const char* deltaOut = nullptr;
   std::vector<uint8_t> dbuf;
+  long cutA = -1, cutB = -1;
+  const char* cutOut = nullptr;
+  int cutState = 0;  // 0 before the window, 1 in it, 2 after it
+  std::vector<uint8_t> cbuf;
   V3 lastDelta;
   if (argc < 2) {
     fprintf(stderr, "usage: cloth_replay file.pxcr [--frames a b out.bin] [--quiet]\n");
@@ -290,6 +301,7 @@ int main(int argc, char** argv) {
   double gvLostZ = 0, gvDz = 0, gvCurZ = 0;  // sums of (value - current).z, change.z, current.z
   float probeZ = -1e30f;
   bool fallOn = false;  // --fall
+  bool metricsOn = false;  // --metrics
   struct FloorHit { V3 at; bool has = false, flagged = false, removed = false; };
   std::vector<FloorHit> floorOf;
   std::map<long, std::pair<int, float>> fallSteps, fallRemoved;  // step -> (particles, deepest drop below the floor)
@@ -318,6 +330,7 @@ int main(int argc, char** argv) {
   for (int i = 2; i < argc; ++i) {
     if (!strcmp(argv[i], "--veldelta") && i + 2 < argc) { i += 2; continue; }
     if (!strcmp(argv[i], "--dual")) { dual = true; continue; }
+    if (!strcmp(argv[i], "--cut") && i + 3 < argc) { cutA = atol(argv[i + 1]), cutB = atol(argv[i + 2]), cutOut = argv[i + 3], i += 3; continue; }
     if (!strcmp(argv[i], "--keep")) { keepState = true; continue; }
     if (!strcmp(argv[i], "--threads") && i + 1 < argc) { const int t = atoi(argv[++i]); if (t > 1) g_pool = new pxr::ThreadPool(t); continue; }
     if (!strcmp(argv[i], "--to-delta") && i + 1 < argc) { deltaOut = argv[++i]; dual = true; continue; }
@@ -352,6 +365,7 @@ int main(int argc, char** argv) {
     else if (!strcmp(argv[i], "--stretch") && i + 1 < argc) stretchEvery = atol(argv[++i]);
     else if (!strcmp(argv[i], "--probe") && i + 1 < argc) probeZ = (float)atof(argv[++i]);
     else if (!strcmp(argv[i], "--fall")) fallOn = true;
+    else if (!strcmp(argv[i], "--metrics")) metricsOn = true;
   }
   Reader r;
   {
@@ -394,7 +408,7 @@ int main(int argc, char** argv) {
            s.hi.x - s.lo.x, s.hi.y - s.lo.y, s.hi.z - s.lo.z, c->isSleeping() ? " asleep" : "");
   };
   long opCount[23] = {};
-  double stepMs = 0, stepMax = 0;
+  double stepMs = 0, stepMax = 0, lastStepMs = 0;
   bool vdOn = false;  // --veldelta a b: mean (written - current) velocity of the game's writes per step
   long vdA = -1, vdB = -1;
   V3 vdSum;
@@ -407,6 +421,34 @@ int main(int argc, char** argv) {
   while (r.ok && r.o < r.b.size()) {
     const size_t opStart = r.o;
     const uint8_t op = r.u8();
+    if (cutOut && cutState == 1 && op == kRecStep && (long)step > cutB) cutState = 2;
+    if (cutOut && cutState == 0 && op == kRecStep && (long)step == cutA && c) {
+      Recording w;  // header, every mesh so far under its id, the state
+      char note[512];
+      // the recording as its run folder and file name: no machine path in a case (they may be published)
+      const char* src = argv[1];
+      int seps = 0;
+      for (const char* q = argv[1] + strlen(argv[1]); q > argv[1]; --q)
+        if ((q[-1] == '/' || q[-1] == '\\') && ++seps == 2) { src = q; break; }
+      snprintf(note, sizeof note, "cut of %s, steps %ld..%ld", src, cutA, cutB);
+      w.note(note);
+      for (size_t id = 0; id < meshes.size(); ++id)
+        if (meshes[id]) w.put8(kRecMesh), w.put32((uint32_t)id), w.putVec(meshes[id]->v);
+      auto meshId = [](const TriMesh* m, void* ctx) -> uint32_t {
+        const auto& ms = *static_cast<std::vector<std::unique_ptr<TriMesh>>*>(ctx);
+        for (size_t id = 0; id < ms.size(); ++id) if (ms[id].get() == m) return (uint32_t)id;
+        return 0xffffffffu;
+      };
+      w.put8(kRecState), w.putVec(c->saveState(meshId, &meshes));
+      cbuf = w.b;
+      cutState = 1;
+    }
+    V3 velBefore;  // a velocity write in the cut: kept only if it changed this build's velocity
+    uint32_t velAt = 0xffffffffu;
+    if (cutState == 1 && (op == kRecSetVel || op == kRecGameVel || op == kRecAddVel) && r.o + 4 <= r.b.size()) {
+      memcpy(&velAt, &r.b[r.o], 4);
+      if (velAt < c->vel().size()) velBefore = c->vel()[velAt];
+    }
     const bool tr = (long)step >= ta && (long)step <= tb;
     static const char* names[] = {"?", "create", "mesh", "addShape", "pin", "invMass", "motion", "detach", "attachShape",
                                   "attachGlobal", "wake", "sleep", "setVel", "forceV", "forcePos", "attResp", "attTear",
@@ -454,6 +496,26 @@ int main(int argc, char** argv) {
         printf("create #%d at step %llu: %zu vertices, %zu triangles, flags tear %d bend %d, self %.3f, thickness %.3f\n",
                creates, (unsigned long long)step, x0.size(), tri.size() / 3, p.useTearing, p.useBending,
                p.selfContactDist, p.thickness);
+        break;
+      }
+      case kRecState: {
+        const std::vector<uint8_t> s = r.vec<uint8_t>();
+        auto meshOf = [](uint32_t id, void* ctx) -> const TriMesh* {
+          const auto& ms = *static_cast<std::vector<std::unique_ptr<TriMesh>>*>(ctx);
+          return id < ms.size() ? ms[id].get() : nullptr;
+        };
+        std::vector<std::string> missing;
+        std::string err;
+        c.reset(Cloth::loadState(s, meshOf, &meshes, &missing, &err));
+        if (!c) { fprintf(stderr, "state: %s\n", err.c_str()); return 1; }
+        a.reset();
+        if (g_pool) c->setParallelFor(poolRun);
+        rest = c->restPositions();
+        ++creates;
+        printf("state at step %llu: %zu vertices, %zu triangles, %zu shapes, flags tear %d self %.3f%s", (unsigned long long)step,
+               c->pos().size(), c->tri().size() / 3, c->shapesDebug().size(), c->params().useTearing, c->params().selfContactDist,
+               missing.empty() ? "\n" : ", fields at their default (saved by an older build):");
+        for (size_t k = 0; k < missing.size(); ++k) printf(" %s%s", missing[k].c_str(), k + 1 < missing.size() ? "" : "\n");
         break;
       }
       case kRecMesh: {
@@ -626,6 +688,7 @@ int main(int argc, char** argv) {
           both([&](Cloth& k) { k.step(dt, g); });
           const double ms = std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - t0).count();
           stepMs += ms, stepMax = std::max(stepMax, ms);
+          lastStepMs = ms;
           if (ms > 8.0) printf("slow step %llu: %.1f ms, n %zu, splits %d\n", (unsigned long long)step, ms, c->pos().size(), c->splits());
         }
         ++step;
@@ -687,6 +750,13 @@ int main(int argc, char** argv) {
               ++fallTotal;
             }
           }
+        }
+        if (metricsOn) {
+          const Stats s = stats(*c, rest);
+          int bad = 0;
+          for (const V3& q : c->pos()) bad += !(std::isfinite(q.x) && std::isfinite(q.y) && std::isfinite(q.z));
+          printf("M %llu %.6f %zu %.3f %d %.3f %d %ld %.3f\n", (unsigned long long)(step - 1), dt, s.n, s.vmax, s.fast,
+                 s.stretch, bad, fallTotal, lastStepMs);
         }
         if ((long)step >= flA && (long)step <= flB) fl.scan(*c, step);
         if (!quiet && (long)step <= watchUntil && ((long)step - watchUntil + 90 <= 10 || step % 10 == 0)) line("after ");
@@ -809,6 +879,47 @@ int main(int argc, char** argv) {
         fprintf(stderr, "unknown op %u at %zu\n", op, r.o - 1);
         return 1;
     }
+    if (cutState == 1) {
+      Recording w;
+      w.b.clear();
+      switch (op) {
+        case kRecSetVel: case kRecGameVel: case kRecAddVel: {
+          uint32_t i;
+          memcpy(&i, &r.b[opStart + 1], 4);
+          if (i < c->vel().size() && (i != velAt || memcmp(&velBefore, &c->vel()[i], 12) != 0))
+            w.put8(kRecSetVel), w.put32(i), w.putv(c->vel()[i]);
+          break;
+        }
+        case kRecCheck: break;  // the recording build's hashes; the case carries its own
+        case kRecCreate: {  // the rebuild as it reached this build: its parameters, its positions (--keep), then its velocities
+          static const V3 kZero;
+          Reader q;
+          q.b.assign(r.b.begin() + opStart + 1, r.b.begin() + r.o);
+          q.vec<uint8_t>();
+          const auto rr = q.vec<V3>();
+          const auto tt = q.vec<uint32_t>();
+          q.vec<V3>();
+          const bool hasE = q.u8();
+          std::vector<Edge> ee;
+          if (hasE) ee = q.vec<Edge>();
+          const bool sr = q.u8();
+          w.put8(kRecCreate), w.putVec(Recording::params(c->params())), w.putVec(rr), w.putVec(tt), w.putVec(c->pos());
+          w.put8(hasE);
+          if (hasE) w.putVec(ee);
+          w.put8(sr);
+          for (size_t i = 0; i < c->vel().size(); ++i)
+            if (memcmp(&c->vel()[i], &kZero, 12) != 0) w.put8(kRecSetVel), w.put32((uint32_t)i), w.putv(c->vel()[i]);
+          break;
+        }
+        case kRecParams: w.put8(kRecParams), w.putVec(Recording::params(c->params())); break;
+        case kRecStep:
+          w.b.assign(r.b.begin() + opStart, r.b.begin() + r.o);
+          w.put8(kRecCheck), w.put32(recHash(c->pos()));
+          break;
+        default: w.b.assign(r.b.begin() + opStart, r.b.begin() + r.o);
+      }
+      cbuf.insert(cbuf.end(), w.b.begin(), w.b.end());
+    }
     if (deltaOut) {
       if (op == kRecSetVel) {
         uint32_t i;
@@ -824,6 +935,12 @@ int main(int argc, char** argv) {
         dbuf.insert(dbuf.end(), r.b.begin() + opStart, r.b.begin() + r.o);
       }
     }
+  }
+  if (cutOut) {
+    FILE* f = cbuf.empty() ? nullptr : fopen(cutOut, "wb");
+    if (!f || fwrite(cbuf.data(), 1, cbuf.size(), f) != cbuf.size()) { fprintf(stderr, "cut: nothing written (step %ld not reached?)\n", cutA); return 1; }
+    fclose(f);
+    printf("cut: %s, %zu bytes\n", cutOut, cbuf.size());
   }
   if (deltaOut) {
     FILE* f = fopen(deltaOut, "wb");

@@ -1,0 +1,54 @@
+{
+ "source": "captures/game-run/20261013-011243/PhysXLoader_cloth005.pxcr",
+ "steps": [
+  1765,
+  1790
+ ],
+ "replay_args": [
+  "--dual",
+  "--keep"
+ ],
+ "note": "torn banner, shotgun: the step with the most tearing work (step 1775)",
+ "metrics": {
+  "vmax": 195.828,
+  "stretch": 5.578,
+  "fall": 0,
+  "nonfinite": 0,
+  "ms": 7.362,
+  "steps": 26
+ },
+ "limits": {
+  "vmax": 244.8,
+  "stretch": 6.97,
+  "fall": 0,
+  "nonfinite": 0
+ },
+ "hashes": [
+  "8f4c9e05",
+  "f394c13c",
+  "7b32d860",
+  "31a7e1d5",
+  "9e956b66",
+  "71b9a40d",
+  "24e95cd5",
+  "6ca074c2",
+  "f7a25142",
+  "12f796b4",
+  "c2a287c5",
+  "dc650b51",
+  "e90c4644",
+  "5b608dbe",
+  "4ab6bbf2",
+  "61dad8ac",
+  "62b8ae04",
+  "6f86bc41",
+  "a7bf5170",
+  "3bde469f",
+  "db48e3cf",
+  "e4aa798a",
+  "13bc5683",
+  "4834a55e",
+  "b7ca7168",
+  "3db684b2"
+ ]
+}

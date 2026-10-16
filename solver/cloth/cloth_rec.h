@@ -25,6 +25,7 @@ enum RecOp : uint8_t {
                // write minus what it read), so a replay with other rules can apply the change instead of the value
   ,kRecShapeVel  // u32 shape, V3 lin, V3 ang, V3 com: setShapeVelocity (recorded when it changes)
   ,kRecRemoved   // u8 vector: the removed-particle mask (NX_CLF_VALIDBOUNDS) restored into a rebuilt cloth, see setRemoved
+  ,kRecState     // u8 vector: a whole solver state (Cloth::saveState) in place of a Create: test cases (cloth_replay --cut)
 };
 constexpr uint32_t kRecVersion = 1;
 
