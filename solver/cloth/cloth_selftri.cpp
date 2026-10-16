@@ -235,24 +235,34 @@ void Cloth::selfContactFind(const V3& gravity, float dt) {
   // torn cloth (no longer neighbours) collide everywhere, their torn edges included.
   if (scAdjTris_ != tri_ || scAdjStart_.size() != nv + 1) {
     scAdjTris_ = tri_;
-    std::vector<std::pair<uint32_t, uint32_t>> e;
-    e.reserve(tri_.size() * 2);
+    // Both directions of every triangle edge bucketed by their first vertex, then each (short) bucket sorted and made
+    // unique: the same table as sorting all pairs, without the global sort that came after every tear.
+    std::vector<uint32_t> cnt(nv + 1, 0);  // (only after a tear changed the triangles)
+    for (size_t k = 0; k + 2 < tri_.size(); k += 3)
+      for (int c = 0; c < 3; ++c) ++cnt[tri_[k + c] + 1], ++cnt[tri_[k + (c + 1) % 3] + 1];
+    for (size_t v = 0; v < nv; ++v) cnt[v + 1] += cnt[v];
+    std::vector<uint32_t> nb(cnt[nv]);  // the neighbours, bucketed
+    std::vector<uint32_t> at(cnt.begin(), cnt.end() - 1);  // fill position per bucket
     for (size_t k = 0; k + 2 < tri_.size(); k += 3)
       for (int c = 0; c < 3; ++c) {
         const uint32_t a = tri_[k + c], b = tri_[k + (c + 1) % 3];
-        e.push_back({a, b});
-        e.push_back({b, a});
+        nb[at[a]++] = b;
+        nb[at[b]++] = a;
       }
-    std::sort(e.begin(), e.end());
-    e.erase(std::unique(e.begin(), e.end()), e.end());
     scAdjStart_.assign(nv + 1, 0);
-    for (const auto& q : e) ++scAdjStart_[q.first + 1];
-    for (size_t v = 0; v < nv; ++v) scAdjStart_[v + 1] += scAdjStart_[v];
-    scAdj_.resize(e.size());
-    for (size_t k = 0; k < e.size(); ++k) scAdj_[k] = e[k].second;
+    scAdj_.clear();
     scEdges_.clear();
-    for (const auto& q : e)
-      if (q.first < q.second) scEdges_.push_back({q.first, q.second});
+    for (size_t v = 0; v < nv; ++v) {
+      uint32_t* b0 = nb.data() + cnt[v];
+      uint32_t* b1 = nb.data() + cnt[v + 1];
+      std::sort(b0, b1);
+      b1 = std::unique(b0, b1);
+      for (uint32_t* q = b0; q < b1; ++q) {
+        scAdj_.push_back(*q);
+        if (v < *q) scEdges_.push_back({(uint32_t)v, *q});
+      }
+      scAdjStart_[v + 1] = (uint32_t)scAdj_.size();
+    }
   }
   untangleFind(dt);
   const uint32_t* reg = utReg_.empty() ? nullptr : utReg_.data();
@@ -634,13 +644,29 @@ void Cloth::untangleFind(float dt) {
       B[3 * 4 + j] = hi.x, B[4 * 4 + j] = hi.y, B[5 * 4 + j] = hi.z;
     }
   }
-  // piercings, per chunk of edges, joined in edge order
+  // the big triangles and (when an edge needs them) all triangles as SoA boxes, as in selfContactFind
+  packBoxes(tb, big.data(), big.size(), utBigBox_);
+  const float* bigBox = utBigBox_.data();
+  const size_t nBigG = (big.size() + 3) / 4, nAllG = (nt + 3) / 4;
+  std::once_flag allPacked;
+  auto allBoxes = [&]() -> const float* {
+    std::call_once(allPacked, [&] {
+      std::vector<uint32_t>& all = scCand_;  // scratch: 0..nt-1 (selfContactFind fills it the same way)
+      all.resize(nt);
+      for (size_t t = 0; t < nt; ++t) all[t] = (uint32_t)t;
+      packBoxes(tb, all.data(), nt, utAllBox_);
+    });
+    return utAllBox_.data();
+  };
+  // piercings, per chunk of edges, joined in edge order (128 edges: the torn, expensive edges sit at the end)
   struct Pierce { uint32_t e, t; float tau, w[3]; };
-  const size_t K = 512, nch = (ne + K - 1) / K;
+  const size_t K = 128, nch = (ne + K - 1) / K;
   std::vector<std::vector<Pierce>> out(nch);
+  if (utStamps_.size() < nch) utStamps_.resize(nch);
   auto runChunk = [&](size_t ci) {
     std::vector<Pierce>& o = out[ci];
-    std::vector<uint32_t> stamp(nt, 0);
+    std::vector<uint32_t>& stamp = utStamps_[ci];
+    stamp.assign(nt, 0);
     const size_t kEnd = std::min(ne, (ci + 1) * K);
     for (size_t k = ci * K; k < kEnd; ++k) {
       const uint32_t a = scEdges_[k].first, b = scEdges_[k].second;
@@ -649,11 +675,8 @@ void Cloth::untangleFind(float dt) {
       const V3 lo = vmin(P, Q), hi = vmax(P, Q);
       const uint32_t mark = (uint32_t)k + 1;
       const size_t first = o.size();
-      // a candidate: boxes overlap, the start plane separates the edge's ends, no shared corner; then the exact test
-      auto overlaps = [&](uint32_t t) {
-        const TriBox& bt = tb[t];
-        return !(bt.hi.x < lo.x || bt.lo.x > hi.x || bt.hi.y < lo.y || bt.lo.y > hi.y || bt.hi.z < lo.z || bt.lo.z > hi.z);
-      };
+      // a candidate: boxes overlap (tested four at a time before), the start plane separates the edge's ends, no
+      // shared corner; then the exact test
       auto consider = [&](uint32_t t) {  // boxes overlap
         if (stamp[t] == mark) return;
         stamp[t] = mark;
@@ -667,38 +690,22 @@ void Cloth::untangleFind(float dt) {
       };
       int c0[3], c1[3];
       if (cellRange(lo, hi, c0, c1) > 64) {
-        for (uint32_t t = 0; t < (uint32_t)nt; ++t)
-          if (overlaps(t)) consider(t);
+        const float* allBox = allBoxes();
+        for (size_t g = 0; g < nAllG; ++g)
+          for (int m = overlap4(allBox + g * 24, lo, hi), j = 0; m; ++j, m >>= 1)
+            if (m & 1) consider((uint32_t)(g * 4 + j));
       } else {
         for (int z = c0[2]; z <= c1[2]; ++z)
           for (int y = c0[1]; y <= c1[1]; ++y)
             for (int x = c0[0]; x <= c1[0]; ++x) {
               const uint32_t c = cellHash(x, y, z) & mask;
-              for (uint32_t e = start[c]; e < start[c + 1]; e += 4) {
-                const float* B = &ib[(size_t)e * 6];
-                int m;
-#if defined(__SSE2__)
-                const __m128 ok = _mm_and_ps(
-                    _mm_and_ps(_mm_and_ps(_mm_cmpnlt_ps(_mm_loadu_ps(B + 12), _mm_set1_ps(lo.x)),
-                                          _mm_cmpnlt_ps(_mm_loadu_ps(B + 16), _mm_set1_ps(lo.y))),
-                               _mm_and_ps(_mm_cmpnlt_ps(_mm_loadu_ps(B + 20), _mm_set1_ps(lo.z)),
-                                          _mm_cmpngt_ps(_mm_loadu_ps(B + 0), _mm_set1_ps(hi.x)))),
-                    _mm_and_ps(_mm_cmpngt_ps(_mm_loadu_ps(B + 4), _mm_set1_ps(hi.y)),
-                               _mm_cmpngt_ps(_mm_loadu_ps(B + 8), _mm_set1_ps(hi.z))));
-                m = _mm_movemask_ps(ok);
-#else
-                m = 0;
-                for (int j = 0; j < 4; ++j)
-                  if (!(B[12 + j] < lo.x || B[16 + j] < lo.y || B[20 + j] < lo.z || B[0 + j] > hi.x ||
-                        B[4 + j] > hi.y || B[8 + j] > hi.z))
-                    m |= 1 << j;
-#endif
-                for (int j = 0; m; ++j, m >>= 1)
+              for (uint32_t e = start[c]; e < start[c + 1]; e += 4)
+                for (int m = overlap4(&ib[(size_t)e * 6], lo, hi), j = 0; m; ++j, m >>= 1)
                   if ((m & 1) && items[e + j] != kNoTri) consider(items[e + j]);
-              }
             }
-        for (uint32_t t : big)
-          if (overlaps(t)) consider(t);
+        for (size_t g = 0; g < nBigG; ++g)
+          for (int m = overlap4(bigBox + g * 24, lo, hi), j = 0; m; ++j, m >>= 1)
+            if ((m & 1) && g * 4 + j < big.size()) consider(big[g * 4 + j]);
       }
       // triangle order within the edge (the grid walk order is fixed anyway; this keeps the list readable)
       std::sort(o.begin() + first, o.end(), [](const Pierce& u, const Pierce& v) { return u.t < v.t; });
