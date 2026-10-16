@@ -1335,19 +1335,37 @@ void Cloth::rebuildEdges() {
       half.push_back({std::min(x, y), std::max(x, y), o, -1});
     }
   }
-  std::stable_sort(half.begin(), half.end(), [](const Adj& p, const Adj& q) { return p.a != q.a ? p.a < q.a : p.b < q.b; });
+  // Sorted by (a, b), stably (triangle order within a pair): bucketed by a in triangle order, then each short bucket
+  // stably sorted by b. The same order as one stable sort of all half-edges, at a fraction of its cost; adjStart (the
+  // first pair of each a) makes a lookup a scan of a's few pairs instead of a binary search over all of them.
+  const size_t nv = x_.size();
+  std::vector<uint32_t> hStart(nv + 1, 0);
+  for (const Adj& h : half) ++hStart[(size_t)h.a + 1];
+  for (size_t v = 0; v < nv; ++v) hStart[v + 1] += hStart[v];
+  std::vector<Adj> sorted(half.size());
+  {
+    std::vector<uint32_t> fill(hStart.begin(), hStart.end() - 1);
+    for (const Adj& h : half) sorted[fill[(size_t)h.a]++] = h;
+  }
   std::vector<Adj> adj;
   adj.reserve(half.size());
-  for (const Adj& h : half) {
-    if (adj.empty() || adj.back().a != h.a || adj.back().b != h.b) adj.push_back({h.a, h.b, h.o1, -1});
-    else if (adj.back().o2 < 0) adj.back().o2 = h.o1;
+  std::vector<uint32_t> adjStart(nv + 1, 0);
+  for (size_t v = 0; v < nv; ++v) {
+    Adj* b0 = sorted.data() + hStart[v];
+    Adj* b1 = sorted.data() + hStart[v + 1];
+    std::stable_sort(b0, b1, [](const Adj& p, const Adj& q) { return p.b < q.b; });
+    for (const Adj* h = b0; h < b1; ++h) {
+      if (adj.size() == adjStart[v] || adj.back().b != h->b) adj.push_back({h->a, h->b, h->o1, -1});
+      else if (adj.back().o2 < 0) adj.back().o2 = h->o1;
+    }
+    adjStart[v + 1] = (uint32_t)adj.size();
   }
   half.clear();
   auto find = [&](int a, int b) -> int {  // index in adj of pair {a, b}, or -1
     const int lo = std::min(a, b), hi = std::max(a, b);
-    auto it = std::lower_bound(adj.begin(), adj.end(), std::make_pair(lo, hi),
-                               [](const Adj& e, const std::pair<int, int>& k) { return e.a != k.first ? e.a < k.first : e.b < k.second; });
-    if (it != adj.end() && it->a == lo && it->b == hi) return (int)(it - adj.begin());
+    if (lo < 0 || (size_t)hi >= nv) return -1;
+    for (uint32_t k = adjStart[(size_t)lo]; k < adjStart[(size_t)lo + 1]; ++k)
+      if (adj[k].b == hi) return (int)k;
     return -1;
   };
   // current vertices of each rest vertex (the original and its copies), in index order: CSR by rest vertex
