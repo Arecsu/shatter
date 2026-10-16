@@ -32,6 +32,8 @@ constexpr uint32_t kRecVersion = 1;
 struct Recording {
   std::vector<uint8_t> b;
   std::map<const TriMesh*, uint32_t> meshIds;
+  uint32_t nextMeshId = 0;  // ids are never reused: the shim forgets freed meshes, and a new one taking a live id
+                            // swapped geometry in replays (recordings before this reuse them; cloth_replay copes)
   std::vector<uint8_t> lastParams;
   std::vector<std::vector<uint8_t>> lastMotion;  // per shape slot of the current Cloth
   std::vector<std::vector<uint8_t>> lastVel;     // per shape slot: last setShapeVelocity
@@ -116,7 +118,7 @@ class RecCloth : public Cloth {
     if (s.mesh) {
       auto it = R.meshIds.find(s.mesh);
       if (it == R.meshIds.end()) {
-        id = (uint32_t)R.meshIds.size();
+        id = R.nextMeshId++;
         R.meshIds[s.mesh] = id;
         R.put8(kRecMesh), R.put32(id), R.putVec(s.mesh->v);
       } else {

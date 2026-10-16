@@ -379,6 +379,7 @@ int main(int argc, char** argv) {
   }
   if (r.u32() != 0x52435850u || r.u32() != kRecVersion) { fprintf(stderr, "not a PXCR v1 file\n"); return 1; }
   std::vector<std::unique_ptr<TriMesh>> meshes;
+  std::vector<std::unique_ptr<TriMesh>> retired;  // meshes whose id was sent again (see kRecMesh)
   std::unique_ptr<Cloth> c;
   // --dual: c runs this build; a second cloth `a` runs the recording build's call rules (attach and free calls did not
   // wake the cloth) and so reproduces the recording (the hash checks run on it). The game's velocity writes reach c as
@@ -432,14 +433,18 @@ int main(int argc, char** argv) {
         if ((q[-1] == '/' || q[-1] == '\\') && ++seps == 2) { src = q; break; }
       snprintf(note, sizeof note, "cut of %s, steps %ld..%ld", src, cutA, cutB);
       w.note(note);
-      for (size_t id = 0; id < meshes.size(); ++id)
-        if (meshes[id]) w.put8(kRecMesh), w.put32((uint32_t)id), w.putVec(meshes[id]->v);
+      // retired meshes (an id sent again) get ids after the current ones, so shapes still on them keep their geometry
+      std::vector<const TriMesh*> all;
+      for (const auto& m : meshes) all.push_back(m.get());
+      for (const auto& m : retired) all.push_back(m.get());
+      for (size_t id = 0; id < all.size(); ++id)
+        if (all[id]) w.put8(kRecMesh), w.put32((uint32_t)id), w.putVec(all[id]->v);
       auto meshId = [](const TriMesh* m, void* ctx) -> uint32_t {
-        const auto& ms = *static_cast<std::vector<std::unique_ptr<TriMesh>>*>(ctx);
-        for (size_t id = 0; id < ms.size(); ++id) if (ms[id].get() == m) return (uint32_t)id;
+        const auto& ms = *static_cast<std::vector<const TriMesh*>*>(ctx);
+        for (size_t id = 0; id < ms.size(); ++id) if (ms[id] == m) return (uint32_t)id;
         return 0xffffffffu;
       };
-      w.put8(kRecState), w.putVec(c->saveState(meshId, &meshes));
+      w.put8(kRecState), w.putVec(c->saveState(meshId, &all));
       cbuf = w.b;
       cutState = 1;
     }
@@ -521,6 +526,9 @@ int main(int argc, char** argv) {
       case kRecMesh: {
         const uint32_t id = r.u32();
         if (meshes.size() <= id) meshes.resize(id + 1);
+        // an id sent again (older recordings reuse ids of meshes the shim freed): the mesh it named stays alive for
+        // the shapes that still point to it
+        if (meshes[id]) retired.push_back(std::move(meshes[id]));
         meshes[id].reset(new TriMesh());
         meshes[id]->v = r.vec<V3>();
         meshes[id]->build();
