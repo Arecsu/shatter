@@ -15,7 +15,7 @@ Shatter replaces those effects with an optimized, multithreaded CPU implementati
 
 ### The easy way (recommended)
 
-1. Download [`ShatterSetup-1.0.5.exe`](https://github.com/Arecsu/shatter/releases/download/v1.0.5/ShatterSetup-1.0.5.exe) from the [latest release](https://github.com/Arecsu/shatter/releases/latest).
+1. Download [`ShatterSetup-1.0.6.exe`](https://github.com/Arecsu/shatter/releases/download/v1.0.6/ShatterSetup-1.0.6.exe) from the [latest release](https://github.com/Arecsu/shatter/releases/latest).
 2. Run it and follow the instructions.
 3. Optionally, after installation, use **Game settings** to raise the 62 fps cap, skip the intro movie or enable the slide-steering fix.
 4. Make sure PhysX is turned on in the game's graphics options.
@@ -28,11 +28,11 @@ On Linux with Wine/Proton, run the installer in the same prefix as the game so i
 
 ### The hard way
 
-1. Download [`Shatter-1.0.5.zip`](https://github.com/Arecsu/shatter/releases/download/v1.0.5/Shatter-1.0.5.zip) from the [latest release](https://github.com/Arecsu/shatter/releases/latest) and extract it.
-2. In the game folder, open `Binaries/` (next to `MirrorsEdge.exe`).
-3. Back up the original `PhysXLoader.dll` as `PhysXLoader.dll.original` so you can restore it when uninstalling.
-4. Copy Shatter's `PhysXLoader.dll` from the ZIP into `Binaries/` and overwrite the original.
-5. Make sure PhysX is turned on in the game's graphics options.
+1. Download [`Shatter-1.0.6.zip`](https://github.com/Arecsu/shatter/releases/download/v1.0.6/Shatter-1.0.6.zip) from the [latest release](https://github.com/Arecsu/shatter/releases/latest) and extract it.
+2. Open the game's `Binaries/` folder (where `MirrorsEdge.exe` is).
+3. Rename the original `PhysXLoader.dll` to `PhysXLoader.dll.original`. EA app version: there is none here, skip this step.
+4. Copy Shatter's `PhysXLoader.dll` into `Binaries/`.
+5. Turn PhysX on in the game's graphics options.
 
 That's all. Shatter finds the PhysX runtime the same way the original loader does, keeps rigid-body physics on it,
 and runs the fluids and cloth on the CPU, with or without an NVIDIA card and PhysX driver. The installer
@@ -41,8 +41,8 @@ and runs the fluids and cloth on the CPU, with or without an NVIDIA card and Phy
 Settings are optional: a `shatter.ini` next to the DLL can disable Shatter's fluids or cloth (to compare with the original PhysX), set the number of threads or enable a debug log. See `package/shatter.ini` for the keys. Environment variables
 (`PXSHIM_*`) override the ini, for developers.
 
-To uninstall, restore the original `PhysXLoader.dll` (Steam: Verify integrity of game files; GOG: Repair; or put back
-your copy).
+To uninstall, rename `PhysXLoader.dll.original` back to `PhysXLoader.dll`, or repair the game in Steam, GOG or the EA
+app. EA app version: just delete Shatter's `PhysXLoader.dll`.
 
 ### Features
 

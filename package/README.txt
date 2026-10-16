@@ -16,11 +16,11 @@ slides (chapter 1 building slide), which the game loses above 62 fps. Game setti
 slide_steering_fix = on in shatter.ini. GOG 1.0.1.0 game build only.
 
 By hand:
-1. Open the game folder, then Binaries (the folder with MirrorsEdge.exe).
-2. Optional: copy the original PhysXLoader.dll somewhere safe, or rename the copy to
-   PhysXLoader.dll.original.
-3. Copy PhysXLoader.dll from this zip into Binaries and overwrite the original.
-4. In the game, make sure PhysX is on in the graphics options.
+1. Open the game's Binaries folder (where MirrorsEdge.exe is).
+2. Rename the original PhysXLoader.dll to PhysXLoader.dll.original.
+   EA app version: there is none here, skip this step.
+3. Copy PhysXLoader.dll from this zip into Binaries.
+4. Turn PhysX on in the game's graphics options.
 
 Settings (optional)
 -------------------
@@ -31,11 +31,10 @@ number of threads, or write a debug log for bug reports.
 
 Uninstall
 ---------
-Put the original PhysXLoader.dll back:
-- Steam: Properties > Installed Files > Verify integrity of game files
-- GOG Galaxy: Manage installation > Verify / Repair
-- or rename your PhysXLoader.dll.original back to PhysXLoader.dll
-  (ShatterSetup.exe can also do this: Uninstall).
+Installed with ShatterSetup.exe? Run it again and pick Uninstall. Otherwise:
+- rename PhysXLoader.dll.original back to PhysXLoader.dll
+  (EA app version: just delete Shatter's PhysXLoader.dll), or
+- repair the game in Steam, GOG or the EA app.
 
 License
 -------

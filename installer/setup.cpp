@@ -10,6 +10,10 @@
 //   Shatter (ProductName "Shatter"): update to this version, or uninstall (PhysXLoader.dll.original back in place,
 //     only if it is the original; otherwise the player is pointed to Steam Verify / GOG Repair).
 //   anything else: nothing is changed.
+// Some copies (EA app) have no <Binaries>/PhysXLoader.dll, only <Binaries>/PhysXLocal/PhysXLoader.dll: the game loads
+// "PhysXLoader.dll" by name and falls back to the PhysXLocal one only when that fails. If the PhysXLocal one is the
+// original, Shatter's DLL is added to Binaries (so it wins), with the marker PhysXLoader.dll.shatter-added instead of
+// a backup; uninstalling deletes both. PhysXLocal is never changed.
 // Shatter's DLL is embedded in this exe (resource "PHYSXLOADER", RCDATA). It is written next to the target as
 // PhysXLoader.dll.shatter-new and then moved over PhysXLoader.dll, so a failed write leaves the game as it was.
 //
@@ -711,24 +715,39 @@ void installed(const wchar_t* dir, const wchar_t* text) {
   if (taskDialog(main, text, TD_INFORMATION_ICON, b, 1, TDCBF_CLOSE_BUTTON) == 1003) gameSettings(dir);
 }
 
-bool install(const wchar_t* dir, const wchar_t* dll, const wchar_t* backup) {
+// `added` (the marker path) when Binaries has no PhysXLoader.dll of its own (see the top of this file), else nullptr.
+bool install(const wchar_t* dir, const wchar_t* dll, const wchar_t* backup, const wchar_t* added) {
   wchar_t text[1536];
   const bool haveBackup = GetFileAttributesW(backup) != INVALID_FILE_ATTRIBUTES;
   swprintf(text, 1536,
            L"Game folder:\n%ls\n\n%ls", dir,
-           haveBackup ? L"PhysXLoader.dll.original already exists there and is kept as it is."
-                      : L"The original PhysXLoader.dll is kept as PhysXLoader.dll.original.");
+           added        ? L"This copy of the game has no PhysXLoader.dll in this folder, only in PhysXLocal. Shatter's "
+                          L"is added here and the PhysXLocal one is left as it is. Uninstalling removes it again."
+           : haveBackup ? L"PhysXLoader.dll.original already exists there and is kept as it is."
+                        : L"The original PhysXLoader.dll is kept as PhysXLoader.dll.original.");
   const TASKDIALOG_BUTTON b[] = {{IDOK, L"Install"}};
   wchar_t main[128];
   swprintf(main, 128, L"Install Shatter %ls?", kVersion);
   if (g_action != Action::Install && taskDialog(main, text, TD_INFORMATION_ICON, b, 1, TDCBF_CANCEL_BUTTON) != IDOK)
     return false;
-  if (!haveBackup && !CopyFileW(dll, backup, TRUE)) return fileError(L"Could not back up PhysXLoader.dll.", GetLastError());
-  if (const DWORD e = writeOurs(dll)) return fileError(L"Could not write PhysXLoader.dll.", e);
+  if (added) {
+    const HANDLE f = CreateFileW(added, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (f == INVALID_HANDLE_VALUE) return fileError(L"Could not write PhysXLoader.dll.shatter-added.", GetLastError());
+    const char note[] = "Shatter added PhysXLoader.dll to this folder. Uninstalling it with ShatterSetup.exe deletes both.\r\n";
+    DWORD written = 0;
+    WriteFile(f, note, sizeof note - 1, &written, nullptr);
+    CloseHandle(f);
+  } else if (!haveBackup && !CopyFileW(dll, backup, TRUE)) {
+    return fileError(L"Could not back up PhysXLoader.dll.", GetLastError());
+  }
+  if (const DWORD e = writeOurs(dll)) {
+    if (added) DeleteFileW(added);
+    return fileError(L"Could not write PhysXLoader.dll.", e);
+  }
   applyFlags();
   swprintf(text, 1536,
            L"In:\n%ls\n\nStart the game as usual, with PhysX on in the graphics options.\n"
-           L"To uninstall, run this setup again, or use Steam Verify / GOG Repair.\n\n"
+           L"To uninstall, run this setup again, or use Steam Verify / GOG Repair / EA app Repair.\n\n"
            L"Game settings: frame rate cap and intro movie (optional).",
            dir);
   installed(dir, text);
@@ -742,13 +761,21 @@ bool update(const wchar_t* dir, const wchar_t* dll) {
   return true;
 }
 
-bool uninstall(const wchar_t* dll, const wchar_t* backup) {
+bool uninstall(const wchar_t* dll, const wchar_t* backup, const wchar_t* added) {
+  if (GetFileAttributesW(added) != INVALID_FILE_ATTRIBUTES) {  // installed into a Binaries without a PhysXLoader.dll
+    if (!DeleteFileW(dll)) return fileError(L"Could not delete PhysXLoader.dll.", GetLastError());
+    DeleteFileW(added);
+    info(L"Shatter is uninstalled", L"Shatter's PhysXLoader.dll is removed; the game uses its PhysXLocal one again.");
+    offerSettingsRestore();
+    return true;
+  }
   const LoaderInfo b = inspect(backup);
   if (b.kind != Kind::Original) {
     error(b.kind == Kind::Missing ? L"No backup of the original PhysXLoader.dll" : L"The backup is not the original",
           L"Restore the original file with your store instead:\n"
           L"- Steam: Properties > Installed Files > Verify integrity of game files\n"
-          L"- GOG Galaxy: Manage installation > Verify / Repair");
+          L"- GOG Galaxy: Manage installation > Verify / Repair\n"
+          L"- EA app: Repair, in the game's menu in your Library");
     return false;
   }
   if (!MoveFileExW(backup, dll, MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
@@ -818,13 +845,18 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
       if (!pickExe(picked, MAX_PATH * 2)) return 0;
       start = picked;
     }
-    wchar_t dir[MAX_PATH * 2], exe[MAX_PATH * 2], dll[MAX_PATH * 2], backup[MAX_PATH * 2];
+    wchar_t dir[MAX_PATH * 2], exe[MAX_PATH * 2], dll[MAX_PATH * 2], backup[MAX_PATH * 2], added[MAX_PATH * 2],
+        local[MAX_PATH * 2];
     const bool okDir = gameDir(start, dir, MAX_PATH * 2);
     start = nullptr;
     swprintf(exe, MAX_PATH * 2, L"%ls\\MirrorsEdge.exe", dir);
     swprintf(dll, MAX_PATH * 2, L"%ls\\PhysXLoader.dll", dir);
     swprintf(backup, MAX_PATH * 2, L"%ls\\PhysXLoader.dll.original", dir);
-    const LoaderInfo li = inspect(dll);
+    swprintf(added, MAX_PATH * 2, L"%ls\\PhysXLoader.dll.shatter-added", dir);
+    swprintf(local, MAX_PATH * 2, L"%ls\\PhysXLocal\\PhysXLoader.dll", dir);
+    LoaderInfo li = inspect(dll);
+    const bool addHere = li.kind == Kind::Missing && inspect(local).kind == Kind::Original;  // EA app layout
+    if (addHere) li.kind = Kind::Original;
     if (!okDir || GetFileAttributesW(exe) == INVALID_FILE_ATTRIBUTES || li.kind == Kind::Missing) {
       wchar_t text[1024];
       swprintf(text, 1024, L"%ls\n\nPick MirrorsEdge.exe in the game's Binaries folder (PhysXLoader.dll is next to it).",
@@ -844,7 +876,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
           error(L"Shatter is not installed", dir);
           return 1;
         }
-        return install(dir, dll, backup) ? 0 : 1;
+        return install(dir, dll, backup, addHere ? added : nullptr) ? 0 : 1;
       case Kind::Shatter: {
         wchar_t main[128], text[1024];
         swprintf(main, 128, L"Shatter %ls is installed", li.version);
@@ -860,7 +892,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) {
                         : g_action == Action::Uninstall ? 1002
                                                         : taskDialog(main, text, TD_INFORMATION_ICON, b, 3, TDCBF_CLOSE_BUTTON, true);
           if (r == 1001) return update(dir, dll) ? 0 : 1;
-          if (r == 1002) return uninstall(dll, backup) ? 0 : 1;
+          if (r == 1002) return uninstall(dll, backup, added) ? 0 : 1;
           if (r != 1003) return 1;
           gameSettings(dir);
         }
