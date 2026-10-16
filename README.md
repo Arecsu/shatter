@@ -15,7 +15,7 @@ Shatter replaces those effects with an optimized, multithreaded CPU implementati
 
 ### The easy way (recommended)
 
-1. Download [`ShatterSetup-1.0.6.exe`](https://github.com/Arecsu/shatter/releases/download/v1.0.6/ShatterSetup-1.0.6.exe) from the [latest release](https://github.com/Arecsu/shatter/releases/latest).
+1. Download [`ShatterSetup-1.0.7.exe`](https://github.com/Arecsu/shatter/releases/download/v1.0.7/ShatterSetup-1.0.7.exe) from the [latest release](https://github.com/Arecsu/shatter/releases/latest).
 2. Run it and follow the instructions.
 3. Optionally, after installation, use **Game settings** to raise the 62 fps cap, skip the intro movie or enable the slide-steering fix.
 4. Make sure PhysX is turned on in the game's graphics options.
@@ -28,7 +28,7 @@ On Linux with Wine/Proton, run the installer in the same prefix as the game so i
 
 ### The hard way
 
-1. Download [`Shatter-1.0.6.zip`](https://github.com/Arecsu/shatter/releases/download/v1.0.6/Shatter-1.0.6.zip) from the [latest release](https://github.com/Arecsu/shatter/releases/latest) and extract it.
+1. Download [`Shatter-1.0.7.zip`](https://github.com/Arecsu/shatter/releases/download/v1.0.7/Shatter-1.0.7.zip) from the [latest release](https://github.com/Arecsu/shatter/releases/latest) and extract it.
 2. Open the game's `Binaries/` folder (where `MirrorsEdge.exe` is).
 3. Rename the original `PhysXLoader.dll` to `PhysXLoader.dll.original`. EA app version: there is none here, skip this step.
 4. Copy Shatter's `PhysXLoader.dll` into `Binaries/`.
