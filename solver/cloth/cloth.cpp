@@ -1111,6 +1111,13 @@ bool Cloth::tearStep(bool* purgedOut) {
   PairSlots slotOf;  // pair -> edge slot (splitEdges), built at the first incremental split
   std::vector<uint64_t> pOld, pNew;
   bool purged = false;  // a full rebuild in this pass took this step's removed particles out of the edges
+  std::vector<int> dead;  // edge slots splitEdges dropped (dead edges, i < 0) since the last compaction
+  size_t scanE = 0, scanPos = 0, scanDead = 0;  // the scan below: its position, its slot, dead.size() at its start
+  auto compact = [&] {  // the dead edges out, the others in order: the array erasing them one by one would have left
+    if (dead.empty()) return;
+    edges_.erase(std::remove_if(edges_.begin(), edges_.end(), [](const Edge& e) { return e.i < 0; }), edges_.end());
+    dead.clear();
+  };
   auto buildFans = [&] {
     fans.assign(x_.size(), {});
     for (size_t t = 0; t + 2 < tri_.size(); t += 3)
@@ -1243,7 +1250,9 @@ bool Cloth::tearStep(bool* purgedOut) {
     // Particles removed this step (valid bounds) are still in the edges: the first split rebuilds in full, which purges
     // them; after that the edges match the alive triangles and the incremental path (which skips dead ones) applies.
     if (!edgesRebuilt_ || (removedDirty_ && !purged)) {
+      compact();
       rebuildEdges();
+      scanPos = scanE, scanDead = 0;  // the array is compact again: position e is slot e
       purged = true;
       slotOf.clear();
     } else {
@@ -1258,7 +1267,7 @@ bool Cloth::tearStep(bool* purgedOut) {
         for (size_t i = 0; i < x_.size(); ++i) fam[(size_t)orig_[i]].push_back((int)i);
       }
       pairsOfFan(pNew);
-      splitEdges(pOld, pNew, fans, fam, slotOf);
+      splitEdges(pOld, pNew, fans, fam, slotOf, dead);
     }
     return true;
   };
@@ -1269,25 +1278,40 @@ bool Cloth::tearStep(bool* purgedOut) {
   // tips of the opened edges get the mark (unless attached) and are split without a direction, so a crack runs on from
   // its tip along a line instead of starting new cuts next to it. [V: decompile of 0x100edb90 / 0x100ea530; the
   // original's "i or j by parity" reads the low bit of a pointer, always i]
+  // The scan visits the array as it would be with every dropped edge erased as soon as it was dropped (the original's
+  // order): position e counts alive edges only, and slot pc is the alive edge at position e. A split can drop edges
+  // before pc (position e then lies further along), drop pc itself, and append at the end.
   const size_t nEdges = edges_.size();
-  for (size_t e = 0; e < nEdges && e < edges_.size(); ++e) {
+  for (size_t e = 0, pc = 0; e < nEdges && e < edges_.size() - dead.size(); ++e) {
     // every split makes at least one copy: with the buffer full nothing more can tear (see the cap in splitVertex)
     if (P_.maxVertices && x_.size() >= P_.maxVertices) break;
-    const Edge ed = edges_[e];
-    if (rmAny && (removed_[ed.i] || removed_[ed.j])) continue;  // an edge with a removed end (edges not yet purged)
-    V3 d = x_[ed.i] - x_[ed.j];
-    const float L = P_.tearFactor * ed.L0;
-    if (d.len2() < L * L) continue;
-    const uint32_t v = tip_[ed.i] ? (uint32_t)ed.i : tip_[ed.j] ? (uint32_t)ed.j : (uint32_t)ed.i;
-    if (!splitVertex(v, &d, &tips)) continue;
-    changed = true;
-    for (uint32_t w : tips) {
-      if (!hard_[w] && !isAttachedToShape(w)) tip_[w] = 1;
-      splitVertex(w, nullptr, &tips2);
-      for (uint32_t w2 : tips2)
-        if (!hard_[w2] && !isAttachedToShape(w2)) tip_[w2] = 1;
+    const Edge ed = edges_[pc];
+    scanE = e, scanPos = pc, scanDead = dead.size();
+    if (!(rmAny && (removed_[ed.i] || removed_[ed.j]))) {  // skip an edge with a removed end (edges not yet purged)
+      V3 d = x_[ed.i] - x_[ed.j];
+      const float L = P_.tearFactor * ed.L0;
+      const uint32_t v = tip_[ed.i] ? (uint32_t)ed.i : tip_[ed.j] ? (uint32_t)ed.j : (uint32_t)ed.i;
+      if (d.len2() >= L * L && splitVertex(v, &d, &tips)) {
+        changed = true;
+        for (uint32_t w : tips) {
+          if (!hard_[w] && !isAttachedToShape(w)) tip_[w] = 1;
+          splitVertex(w, nullptr, &tips2);
+          for (uint32_t w2 : tips2)
+            if (!hard_[w2] && !isAttachedToShape(w2)) tip_[w2] = 1;
+        }
+      }
+    }
+    // to position e + 1: alive edges before scanPos number e minus those dropped there in this pass (a full rebuild
+    // compacts the array and puts scanPos at e)
+    pc = scanPos;
+    size_t before = e;
+    for (size_t k = scanDead; k < dead.size(); ++k) before -= (size_t)dead[k] < pc;
+    while (pc < edges_.size() && (before < e + 1 || edges_[pc].i < 0)) {
+      if (edges_[pc].i >= 0) ++before;
+      ++pc;
     }
   }
+  compact();
   deferEdgeUpkeep_ = false;
   if (changed) buildSchedule(), recomputeMass();
   if (purgedOut) *purgedOut = purged;
@@ -1422,7 +1446,7 @@ void Cloth::edgeRest(Edge& e) const {
 // and after the split; fans: triangles of each vertex after it, fam: current vertices of each rest vertex (tearStep).
 void Cloth::splitEdges(const std::vector<uint64_t>& pOld, const std::vector<uint64_t>& pNew,
                        const std::vector<std::vector<uint32_t>>& fans, const std::vector<std::vector<int>>& fam,
-                       PairSlots& slotOf) {
+                       PairSlots& slotOf, std::vector<int>& dead) {
   auto key = [](int a, int b) { return ((uint64_t)(uint32_t)std::min(a, b) << 32) | (uint32_t)std::max(a, b); };
   // the pair's first two triangles (buffer order) and their opposite vertices, as rebuildEdges' sorted half-edges
   auto adjOf = [&](int a, int b, int& o1, int& o2) {
@@ -1517,18 +1541,12 @@ void Cloth::splitEdges(const std::vector<uint64_t>& pOld, const std::vector<uint
   for (const auto& r : repl) slotOf.erase(key(edges_[r.first].i, edges_[r.first].j));
   for (int sl : dropped) slotOf.erase(key(edges_[sl].i, edges_[sl].j));
   for (const auto& r : repl) edges_[r.first] = r.second;
-  if (!dropped.empty()) {
-    for (auto it = dropped.rbegin(); it != dropped.rend(); ++it) edges_.erase(edges_.begin() + *it);
-    for (const Edge& e : app) edges_.push_back(e);
-    // slots below the first dropped or replaced one did not move: refill from there (a full refill per split was most
-    // of splitEdges' cost)
-    int from = dropped.front();
-    for (const auto& r : repl) from = std::min(from, r.first);
-    for (size_t k = (size_t)from; k < edges_.size(); ++k) slotOf.set(key(edges_[k].i, edges_[k].j), (int)k);
-  } else {
-    for (const auto& r : repl) slotOf.set(key(r.second.i, r.second.j), r.first);
-    for (const Edge& e : app) slotOf.set(key(e.i, e.j), (int)edges_.size()), edges_.push_back(e);
-  }
+  // Dropped slots stay in place as dead edges (i = j = -1) until tearStep compacts the array once at its end: erasing
+  // them here shifted every later slot, and refilling their slot map was most of the cost of a heavy tear step. Slots
+  // keep their order, so the comparisons above (own < sl, the sorted lists) mean the same as on the compacted array.
+  for (int sl : dropped) edges_[sl].i = edges_[sl].j = -1, dead.push_back(sl);
+  for (const auto& r : repl) slotOf.set(key(r.second.i, r.second.j), r.first);
+  for (const Edge& e : app) slotOf.set(key(e.i, e.j), (int)edges_.size()), edges_.push_back(e);
 }
 
 // Mass per corner as in the constructor (|e1 x e2| density / 6 per triangle corner), inverse mass 0 for hard pins.

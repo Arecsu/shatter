@@ -350,7 +350,8 @@ class Cloth {
     size_t live_ = 0, used_ = 0;  // used_: live + tombstones
   };
   void splitEdges(const std::vector<uint64_t>& pOld, const std::vector<uint64_t>& pNew,
-                  const std::vector<std::vector<uint32_t>>& fans, const std::vector<std::vector<int>>& fam, PairSlots& slotOf);
+                  const std::vector<std::vector<uint32_t>>& fans, const std::vector<std::vector<int>>& fam, PairSlots& slotOf,
+                  std::vector<int>& dead);
   void buildSchedule();
   void recomputeMass();
   void selfCollision(float dt);  // NX_CLF_SELFCOLLISION prepass, before gravity (cloth_self.cpp)
